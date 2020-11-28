@@ -16,6 +16,7 @@
 #include "E_Console.h"
 #include "E_ImGuiDemo.h"
 #include "E_About.h"
+#include "E_StateBar.h"
 
 #include "M_Editor.h"
 
@@ -24,6 +25,7 @@
 M_Editor::M_Editor(bool is_active) : Module("Editor", is_active),
 clear_color(0.0f, 0.0f, 0.0f, 1.0f),
 toolbar(nullptr),
+statebar(nullptr),
 configuration(nullptr),
 hierarchy(nullptr),
 inspector(nullptr),
@@ -32,6 +34,7 @@ imgui_demo(nullptr),
 about(nullptr)
 {
 	toolbar			= new E_Toolbar();
+	statebar		= new E_StateBar();
 	configuration	= new E_EngineConfiguration();
 	hierarchy		= new E_Hierarchy();
 	inspector		= new E_Inspector();
@@ -40,6 +43,7 @@ about(nullptr)
 	about			= new E_About();
 
 	AddGuiPanel(toolbar);
+	AddGuiPanel(statebar);
 	AddGuiPanel(configuration);
 	AddGuiPanel(hierarchy);
 	AddGuiPanel(inspector);

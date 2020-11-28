@@ -17,6 +17,7 @@
 
 #include "M_Renderer3D.h"
 
+
 #pragma comment (lib, "glu32.lib")    /* link OpenGL Utility lib     */
 #pragma comment (lib, "opengl32.lib") /* link Microsoft OpenGL lib   */
 
@@ -448,7 +449,7 @@ void M_Renderer3D::DrawMesh(float4x4 transform, R_Mesh* mesh, uint texture_id, b
 {
 	//glMatrixMode(GL_MODELVIEW);
 	glPushMatrix();
-	glMultMatrixf((float*)&transform);
+	glMultMatrixf((float*)&transform.Transposed());
 	
 	glEnableClientState(GL_VERTEX_ARRAY);															// Enables the vertex array for writing and will be used during rendering.
 	glEnableClientState(GL_TEXTURE_COORD_ARRAY);													// Enables the texture coordinate array for writing and will be used during rendering.

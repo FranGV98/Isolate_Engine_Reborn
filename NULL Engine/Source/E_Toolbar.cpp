@@ -21,17 +21,17 @@ bool E_Toolbar::Draw(ImGuiIO& io)
 
 	ImGui::BeginMainMenuBar();
 
-	FileMainMenuItem();
-	EditMainMenuItem();
-	WindowMainMenuItem();
-	ViewMainMenuItem();
-	GameObjectsMainMenuItem();
-	HelpMainMenuItem();
+		FileMainMenuItem();
+		EditMainMenuItem();
+		WindowMainMenuItem();
+		ViewMainMenuItem();
+		GameObjectsMainMenuItem();
+		HelpMainMenuItem();
 
-	if (App->editor->show_close_app_popup)
-	{
-		CloseAppPopup();																	// Not actually inside MainMenuBar but related to FileMainMenuItem().
-	}
+		if (App->editor->show_close_app_popup)
+		{
+			CloseAppPopup();																	// Not actually inside MainMenuBar but related to FileMainMenuItem().
+		}
 
 	ImGui::EndMainMenuBar();
 

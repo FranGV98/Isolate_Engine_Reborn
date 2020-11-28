@@ -10,7 +10,7 @@
 class E_Panel
 {
 public:
-	E_Panel(const char* name, bool is_active = true);
+	E_Panel(const char* name, bool is_active = true, ImGuiWindowFlags flag = NULL);
 	virtual ~E_Panel();
 
 	virtual bool	Draw(ImGuiIO& io);
@@ -26,8 +26,9 @@ public:
 	void			HelpMarker(const char* description);
 
 private:
-	const char*		name;
-	bool			is_active;
+	const char*			name;
+	bool				is_active;
+	ImGuiWindowFlags	flags;
 };
 
 #endif // !__E_PANEL_H__

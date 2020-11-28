@@ -4,6 +4,7 @@
 #include "Component.h"
 #include "MathGeoLib/src/Math/float4x4.h"
 #include "MathGeoLib/src/Math/float3.h"
+#include "MathGeoLib/src/Math/Quat.h"
 
 class GameObject;
 
@@ -17,32 +18,39 @@ public:
 	bool CleanUp() override;
 
 public:
-	void RecalculateGlobalTransform();
+	void RecalculateWorldTransform();
 	void RecalculateLocalTransform();
 	
 	float3 GetPosition() const;
 	float3 GetRotation() const;
 	float3 GetScale() const;
+
+	float4x4 GetLocalTransform();
 	
 	void SetPosition(const float3& position);
 	void SetRotation(const float3& rotation);
 	void SetScale(const float3& scale);
 
+	void SetLocalTransform(float3 position, float3 scale, Quat rotation);
+
 public:
 	float4x4	matrix;
 	
-	bool		recalculate_global_transform;			// Set to true if the parent of the owner object has been changed. That would mean recalculating the local position.
+	bool		recalculate_world_transform;			// Set to true if the parent of the owner object has been changed. That would mean recalculating the local position.
 
 private:
-	float3		position;
-	float4x4	rotation;
-	float3		scale;
+	float3		world_position;
+	Quat		world_rotation;
+	float3		world_scale;
 
 	float3		euler_rotation;
 
 	float3		local_position;
-	float3		local_rotation;
+	Quat		local_rotation;
 	float3		local_scale;
+
+	float4x4	local_transform;
+	float4x4	world_transform;
 };
 
 #endif // !_C_TRANSFORM_H__

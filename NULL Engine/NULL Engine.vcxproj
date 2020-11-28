@@ -67,6 +67,7 @@
     <ClCompile Include="Source\E_Panel.cpp" />
     <ClCompile Include="Source\E_ImGuiDemo.cpp" />
     <ClCompile Include="Source\E_Scene.cpp" />
+    <ClCompile Include="Source\E_StateBar.cpp" />
     <ClCompile Include="Source\E_Toolbar.cpp" />
     <ClCompile Include="Source\E_Viewport.cpp" />
     <ClCompile Include="Source\GameObject.cpp" />
@@ -83,6 +84,7 @@
     <ClCompile Include="Source\M_Input.cpp" />
     <ClCompile Include="Source\M_Renderer3D.cpp" />
     <ClCompile Include="Source\M_SceneIntro.cpp" />
+    <ClCompile Include="Source\M_Time.cpp" />
     <ClCompile Include="Source\M_Window.cpp" />
     <ClCompile Include="Source\M_FileSystem.cpp" />
     <ClCompile Include="Source\PathNode.cpp" />
@@ -202,6 +204,7 @@
     <ClInclude Include="Source\E_Panel.h" />
     <ClInclude Include="Source\E_ImGuiDemo.h" />
     <ClInclude Include="Source\E_Scene.h" />
+    <ClInclude Include="Source\E_StateBar.h" />
     <ClInclude Include="Source\E_Toolbar.h" />
     <ClInclude Include="Source\E_Viewport.h" />
     <ClInclude Include="Source\GameObject.h" />
@@ -219,6 +222,7 @@
     <ClInclude Include="Source\M_Input.h" />
     <ClInclude Include="Source\M_Renderer3D.h" />
     <ClInclude Include="Source\M_SceneIntro.h" />
+    <ClInclude Include="Source\M_Time.h" />
     <ClInclude Include="Source\M_Window.h" />
     <ClInclude Include="Source\M_FileSystem.h" />
     <ClInclude Include="Source\OpenGL.h" />

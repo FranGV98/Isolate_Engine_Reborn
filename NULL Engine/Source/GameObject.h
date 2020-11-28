@@ -34,6 +34,7 @@ public:
 
 public:																					// --- GETTERS AND SETTERS
 	const char* GetName() const;
+	
 	bool		IsActive() const;
 	bool		IsStatic() const;
 
@@ -44,6 +45,7 @@ public:																					// --- GETTERS AND SETTERS
 	void		SetChildsIsActive(const bool& set_to, GameObject* parent);
 	void		SetChildsIsStatic(const bool& set_to, GameObject* parent);
 
+	C_Transform*	GetTransform();
 public:
 	std::vector<Component*>		components;
 	std::vector<GameObject*>	childs;

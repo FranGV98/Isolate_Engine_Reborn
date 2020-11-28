@@ -1,6 +1,6 @@
 #include "E_Panel.h"
 
-E_Panel::E_Panel(const char* name, bool is_active) : name(name), is_active(is_active)
+E_Panel::E_Panel(const char* name, bool is_active, ImGuiWindowFlags flags) : name(name), is_active(is_active), flags(flags)
 {
 
 }

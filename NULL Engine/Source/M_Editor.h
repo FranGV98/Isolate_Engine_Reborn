@@ -16,6 +16,7 @@ class E_Inspector;
 class E_Console;
 class E_ImGuiDemo;
 class E_About;
+class E_StateBar;
 
 enum class IMGUI_STYLE
 {
@@ -71,7 +72,6 @@ public:																				// --- Panel/Window Methods. Acts as an interface bet
 private:
 	bool BeginRootWindow(ImGuiIO& io, const char* window_id, bool docking, ImGuiWindowFlags window_flags = ImGuiWindowFlags_None);
 	void BeginDockspace(ImGuiIO& io, const char* dockspace_id, ImGuiDockNodeFlags docking_flags = ImGuiDockNodeFlags_None, ImVec2 size = { 0.0f, 0.0f });
-
 public:
 	std::vector<E_Panel*>	gui_panels;												//
 
@@ -81,7 +81,9 @@ public:
 	E_Inspector*			inspector;												// 
 	E_Console*				console;												// 
 	E_ImGuiDemo*			imgui_demo;												// 
-	E_About*				about;													// 
+	E_About*				about;	
+	E_StateBar*				statebar;
+												// 
 
 public:
 	ImVec4 clear_color;																//

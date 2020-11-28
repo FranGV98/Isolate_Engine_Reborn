@@ -6,11 +6,20 @@
 
 C_Transform::C_Transform(GameObject* owner) : Component(owner, COMPONENT_TYPE::TRANSFORM, "Transform"),
 matrix(matrix.identity),
-recalculate_global_transform(false)
+recalculate_world_transform(false)
 {	
-	matrix.Decompose(position, rotation, scale);
+	/*matrix.Decompose(local_position, local_rotation, local_scale);
 
-	euler_rotation = rotation.ToEulerXYZ();
+	euler_rotation = local_rotation.ToEulerXYZ();*/
+
+	local_position = float3(0.f, 0.f, 0.f);
+	local_scale = float3(1.f, 1.f, 1.f);
+
+	euler_rotation = float3(0.f, 0.f, 0.f);
+	local_rotation = Quat::identity;
+
+	local_transform = float4x4::FromTRS(local_position, local_rotation, local_scale);
+	world_transform = Quat::identity;
 }
 
 C_Transform::~C_Transform()
@@ -22,19 +31,12 @@ bool C_Transform::Update()
 {
 	bool ret = true;
 
-	if (recalculate_global_transform)
+	if (recalculate_world_transform)
 	{
-		//matrix.TransformPos(position);
+		local_transform = float4x4::FromTRS(local_position, local_rotation, local_scale);
 
-		//matrix.RotateX(rotation.x);
-		//matrix.RotateY(rotation.y);
-		//matrix.RotateZ(rotation.z);
-
-		//matrix.Scale(scale);
-
-		//matrix = rotation;
-
-		recalculate_global_transform = false;
+		RecalculateWorldTransform();
+		recalculate_world_transform = false;
 	}
 
 	return ret;
@@ -50,7 +52,7 @@ bool C_Transform::CleanUp()
 // --- C_TRANSFORM METHODS ---
 float3 C_Transform::GetPosition() const
 {
-	return position;
+	return local_position;
 }
 
 float3 C_Transform::GetRotation() const
@@ -60,30 +62,61 @@ float3 C_Transform::GetRotation() const
 
 float3 C_Transform::GetScale() const
 {
-	return scale;
+	return local_scale;
 }
 
 void C_Transform::SetPosition(const float3& position)
 {
-	this->position = position;
+	this->local_position = position;
 
-	recalculate_global_transform = true;
+	recalculate_world_transform = true;
 }
 
 void C_Transform::SetRotation(const float3& rotation)
 {
 	euler_rotation = rotation;
 
-	this->rotation.RotateX(euler_rotation.x);
-	this->rotation.RotateY(euler_rotation.y);
-	this->rotation.RotateZ(euler_rotation.z);
+	this->local_rotation.RotateX(euler_rotation.x);
+	this->local_rotation.RotateY(euler_rotation.y);
+	this->local_rotation.RotateZ(euler_rotation.z);
 
-	recalculate_global_transform = true;
+	recalculate_world_transform = true;
 }
 
 void C_Transform::SetScale(const float3& scale)
 {
-	this->scale = scale; 
+	this->local_scale = scale;
 
-	recalculate_global_transform = true;
+	recalculate_world_transform = true;
+}
+
+void C_Transform::SetLocalTransform(float3 position, float3 scale, Quat rotation)
+{
+	this->local_position = position;
+	this->local_scale = scale;
+	this->local_rotation = rotation;
+
+	recalculate_world_transform = true;
+}
+
+float4x4 C_Transform::GetLocalTransform()
+{
+	return local_transform;
+}
+
+void C_Transform::RecalculateWorldTransform()
+{
+	if (owner->parent != nullptr)
+	{
+		world_transform = owner->parent->GetTransform()->world_transform * local_transform;
+	}
+	else
+	{
+		world_transform = local_transform;
+	}
+
+	for (uint i = 0; i < owner->childs.size(); ++i)
+	{
+		owner->childs[i]->GetTransform()->RecalculateWorldTransform();
+	}
 }

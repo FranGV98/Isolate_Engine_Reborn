@@ -348,6 +348,12 @@
     <ClCompile Include="Source\C_Material.cpp">
       <Filter>SourceCode\5_GameObjects\Components</Filter>
     </ClCompile>
+    <ClCompile Include="Source\M_Time.cpp">
+      <Filter>SourceCode\1_Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\E_StateBar.cpp">
+      <Filter>SourceCode\2_Editor\Panels</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Color.h">
@@ -754,6 +760,12 @@
     </ClInclude>
     <ClInclude Include="Source\C_Material.h">
       <Filter>SourceCode\5_GameObjects\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\M_Time.h">
+      <Filter>SourceCode\1_Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\E_StateBar.h">
+      <Filter>SourceCode\2_Editor\Panels</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
