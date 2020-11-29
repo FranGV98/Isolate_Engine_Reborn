@@ -7,10 +7,7 @@
 C_Transform::C_Transform(GameObject* owner) : Component(owner, COMPONENT_TYPE::TRANSFORM, "Transform"),
 matrix(matrix.identity),
 recalculate_world_transform(false)
-{	
-	/*matrix.Decompose(local_position, local_rotation, local_scale);
-
-	euler_rotation = local_rotation.ToEulerXYZ();*/
+{
 
 	local_position = float3(0.f, 0.f, 0.f);
 	local_scale = float3(1.f, 1.f, 1.f);
@@ -31,13 +28,7 @@ bool C_Transform::Update()
 {
 	bool ret = true;
 
-	if (recalculate_world_transform)
-	{
-		local_transform = float4x4::FromTRS(local_position, local_rotation, local_scale);
 
-		RecalculateWorldTransform();
-		recalculate_world_transform = false;
-	}
 
 	return ret;
 }
@@ -69,25 +60,25 @@ void C_Transform::SetPosition(const float3& position)
 {
 	this->local_position = position;
 
-	recalculate_world_transform = true;
+	RecalculateLocalTransform();
 }
 
 void C_Transform::SetRotation(const float3& rotation)
 {
 	euler_rotation = rotation;
 
-	this->local_rotation.RotateX(euler_rotation.x);
-	this->local_rotation.RotateY(euler_rotation.y);
-	this->local_rotation.RotateZ(euler_rotation.z);
+	//this->local_rotation.RotateX(euler_rotation.x);
+	//this->local_rotation.RotateY(euler_rotation.y);
+	//this->local_rotation.RotateZ(euler_rotation.z);
 
-	recalculate_world_transform = true;
+	RecalculateLocalTransform();
 }
 
 void C_Transform::SetScale(const float3& scale)
 {
 	this->local_scale = scale;
 
-	recalculate_world_transform = true;
+	RecalculateLocalTransform();
 }
 
 void C_Transform::SetLocalTransform(float3 position, float3 scale, Quat rotation)
@@ -102,6 +93,11 @@ void C_Transform::SetLocalTransform(float3 position, float3 scale, Quat rotation
 float4x4 C_Transform::GetLocalTransform()
 {
 	return local_transform;
+}
+
+float4x4 C_Transform::GetWorldTransform()
+{
+	return world_transform;
 }
 
 void C_Transform::RecalculateWorldTransform()
@@ -119,4 +115,11 @@ void C_Transform::RecalculateWorldTransform()
 	{
 		owner->childs[i]->GetTransform()->RecalculateWorldTransform();
 	}
+}
+
+void C_Transform::RecalculateLocalTransform()
+{
+	local_transform = float4x4::FromTRS(local_position, local_rotation, local_scale);
+
+	RecalculateWorldTransform();
 }

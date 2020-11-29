@@ -26,6 +26,7 @@ public:
 	float3 GetScale() const;
 
 	float4x4 GetLocalTransform();
+	float4x4 GetWorldTransform();
 	
 	void SetPosition(const float3& position);
 	void SetRotation(const float3& rotation);

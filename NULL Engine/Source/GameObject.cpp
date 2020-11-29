@@ -100,7 +100,7 @@ void GameObject::Render()
 		{
 			if (mesh->GetMesh() != nullptr)
 			{
-				App->renderer->DrawMesh(transform->GetLocalTransform(), mesh->GetMesh(), tex_id, tex_is_active);
+				App->renderer->DrawMesh(transform->GetWorldTransform(), mesh->GetMesh(), tex_id, tex_is_active);
 			}
 		}
 	}
@@ -171,7 +171,7 @@ bool GameObject::AddChild(GameObject* child)
 
 	C_Transform* child_transform = (C_Transform*)child->GetComponent(COMPONENT_TYPE::TRANSFORM);
 	
-	child_transform->recalculate_world_transform = true;
+	child_transform->RecalculateLocalTransform();
 
 	child->parent = this;
 
