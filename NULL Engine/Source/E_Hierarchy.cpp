@@ -54,9 +54,13 @@ void E_Hierarchy::ProcessGameObject(GameObject* game_object)
 	// ------ Setting the tree node's color. ------
 	ImVec4 color = { 1.0f, 1.0f, 1.0f, 1.0f };
 	
-	if (!game_object->IsActive())														// If the given game object is not active, the text of the tree node will be displayed in GREY.
+	if (!game_object->IsActive())												// If the given game object is not active, the text of the tree node will be displayed in GREY.
 	{
 		color = { 0.5f, 0.5f, 0.5f, 1.0f };
+	}
+	else if (game_object == App->editor->GetInspectedGameObject())				// If the given game object is not active, the text of the tree node will be displayed in GREY.
+	{
+		color = { 0.0f, 1.0f, 0.0f, 1.0f }; 									// If the given game object is selected, the text of the tree node will be displayed in GREEN.
 	}
 	
 	ImGui::PushStyleColor(ImGuiCol_Text, color);
@@ -105,11 +109,17 @@ void E_Hierarchy::ProcessGameObject(GameObject* game_object)
 		{
 			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("DRAGGED_NODE"))	// First, the payload that is being dropped needs to be checked to make sure its the correct one.
 			{	
-				game_object->AddChild(dragged_game_object);								// (GameObject*)payload->Data would also work. However, it easily breaks, at least in my case.
+				if (game_object->parent != dragged_game_object)								//Checks it is not dragging the parent node to its own childrem
+				{
+					game_object->AddChild(dragged_game_object);								// (GameObject*)payload->Data would also work. However, it easily breaks, at least in my case.
 
-				dragged_game_object = nullptr;
+					dragged_game_object = nullptr;
+				}
+				else
+				{
+					LOG("[ERROR] Could not add child %s to %s: you can not make a parent node child of its own children!", dragged_game_object->GetName(), game_object->GetName());
+				}
 			}
-			
 			ImGui::EndDragDropTarget();
 		}
 
