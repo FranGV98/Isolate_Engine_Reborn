@@ -177,11 +177,10 @@ void E_Inspector::DrawTransformComponent()
 
 			ImGui::SameLine(100.0f);
 
-			float3 rotation = transform->GetRotation();
-			float rot[3] = { rotation.x, rotation.y, rotation.z };
-			if (ImGui::DragFloat3("R", rot, 1.0f, 0.0f, 0.0f, "%.3f", NULL))
+			float3 rot = transform->GetRotation() * RADTODEG;
+			if (ImGui::DragFloat3("R", (float*)&rot, 1.0f, 0.0f, 0.0f, "%.3f", NULL))
 			{
-				transform->SetRotation(float3(rot[0], rot[1], rot[2]));
+				transform->SetRotation(float3(rot * DEGTORAD));
 			}
 
 			// --- SCALE ---

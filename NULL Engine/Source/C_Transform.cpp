@@ -12,7 +12,7 @@ recalculate_world_transform(false)
 	local_position = float3(0.f, 0.f, 0.f);
 	local_scale = float3(1.f, 1.f, 1.f);
 
-	euler_rotation = float3(0.f, 0.f, 0.f);
+	local_euler_rotation = float3(0.f, 0.f, 0.f);
 	local_rotation = Quat::identity;
 
 	local_transform = float4x4::FromTRS(local_position, local_rotation, local_scale);
@@ -48,7 +48,7 @@ float3 C_Transform::GetPosition() const
 
 float3 C_Transform::GetRotation() const
 {
-	return euler_rotation;
+	return local_euler_rotation;
 }
 
 float3 C_Transform::GetScale() const
@@ -65,7 +65,8 @@ void C_Transform::SetPosition(const float3& position)
 
 void C_Transform::SetRotation(const float3& rotation)
 {
-	euler_rotation = rotation;
+	local_rotation = Quat::FromEulerXYZ(rotation.x, rotation.y, rotation.z);
+	local_euler_rotation = rotation;
 
 	//this->local_rotation.RotateX(euler_rotation.x);
 	//this->local_rotation.RotateY(euler_rotation.y);
