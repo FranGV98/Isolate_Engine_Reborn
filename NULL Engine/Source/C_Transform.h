@@ -44,7 +44,7 @@ private:
 	Quat		world_rotation;
 	float3		world_scale;
 
-	float3		euler_rotation;
+	float3		local_euler_rotation;
 
 	float3		local_position;
 	Quat		local_rotation;

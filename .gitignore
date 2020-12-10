@@ -332,14 +332,3 @@ ASALocalRun/
 .mfractor/
 *.tlog
 *.lastbuildstate
-Engine/Source/Resources/imgui.ini
-*.tlog
-NULL Engine/Intermediate/NULL Engine.tlog/CL.command.1.tlog
-NULL Engine/Intermediate/NULL Engine.tlog/CL.command.1.tlog
-NULL Engine/Intermediate/NULL Engine.tlog/CL.read.1.tlog
-NULL Engine/Intermediate/NULL Engine.tlog/CL.write.1.tlog
-NULL Engine/Intermediate/NULL Engine.tlog/link.read.1.tlog
-NULL Engine/Intermediate/vc142.idb
-*.tlog
-NULL Engine/Intermediate/NULL Engine.tlog/link.read.1.tlog
-NULL Engine/Intermediate/vc142.idb
