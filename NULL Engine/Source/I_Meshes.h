@@ -3,6 +3,8 @@
 
 #include <vector>
 
+#define HEADER_SIZE 8
+
 struct aiScene;
 struct aiNode;
 struct aiMesh;
@@ -15,7 +17,7 @@ namespace Importer
 	{
 		void	Import(const char* path, std::vector<R_Mesh*>& meshes);								// Loads the data in the given file path and stores the resulting meshes in a vector.
 
-		uint64	Save(const R_Mesh* mesh, char** buffer);											// Processes R_Mesh data into a buffer ready to save. Will return buffer file's size.
+		uint64	Save(const R_Mesh* mesh, const char* path, char** buffer);							// Processes R_Mesh data into a buffer ready to save. Will return buffer file's size.
 
 		void	Load(const char* buffer, R_Mesh* mesh);												// Processes buffer data into a ready-to-use R_Mesh. Will return nullptr on ERROR.
 

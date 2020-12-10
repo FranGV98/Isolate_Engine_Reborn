@@ -48,7 +48,7 @@ bool M_SceneIntro::Start()
 		App->editor->SetInspectedGameObject(root_object);
 	}
 
-	CreateGameObjectsFromModel("Assets/Models/street/street2.fbx");
+	CreateGameObjectsFromModel("Assets/Models/street/Street Environment_V01.FBX");
 
 	return ret;
 }
@@ -105,6 +105,7 @@ bool M_SceneIntro::CleanUp()
 	}
 
 	game_objects.clear();
+	primitives.clear();
 
 	return true;
 }

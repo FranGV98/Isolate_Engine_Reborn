@@ -15,13 +15,76 @@
 
 using namespace Importer::Meshes;																	// Not a good thing to do but it will be employed sparsely and only inside this .cpp
 
-uint64 Importer::Meshes::Save(const R_Mesh* mesh, char** buffer)
+uint64 Importer::Meshes::Save(const R_Mesh* mesh, const char* path, char** buffer)
 {
-	uint64 buffer_size = 0;
+	uint64 result = 0;
 	
+	//Create the header
+	uint header[HEADER_SIZE] =
+	{
+		mesh->vertices.size(),
+		mesh->normals.size(),
+		mesh->tex_coords.size(),
+		mesh->indices.size(),
+		mesh->VBO, 																				// 4 --> Vertices Buffer Object ID
+		mesh->NBO, 																				// 5 --> Normals Buffer Object ID
+		mesh->TBO, 																				// 6 --> Texture Coordinates Buffer Object ID
+		mesh->IBO
+	};
+	uint size = sizeof(header) + sizeof(uint);
+	size += header[0];
+	size += header[1];
+	size += header[2] * sizeof(float);
+	size += header[3] * sizeof(uint);
 
+	if (size == 0)
+	{
+		LOG("[WARNING] Mesh had no data to Save!");
+		return 0;
+	}
+	
+	*buffer = new char[size];
+	char* file_cursor = *buffer; //Indicates the position where we are writing
 
-	return buffer_size;
+	//Storing the information
+
+	//HEADER
+	uint bytes = sizeof(header);
+	memcpy(file_cursor, header, bytes);
+	file_cursor += bytes;
+
+	//VERTICES
+	bytes = mesh->vertices.size() * sizeof(float);
+	memcpy(file_cursor, &mesh->vertices[0], bytes);
+	file_cursor += bytes;
+
+	//NORMALS
+	bytes = mesh->normals.size() * sizeof(float);
+	memcpy(file_cursor, &mesh->normals[0], bytes);
+	file_cursor += bytes;
+
+	//TEXTURE COORDINATES
+	bytes = mesh->tex_coords.size() * sizeof(float);
+	memcpy(file_cursor, &mesh->tex_coords[0], bytes);
+	file_cursor += bytes;
+
+	//INDICES
+	bytes = mesh->indices.size() * sizeof(float);
+	memcpy(file_cursor, &mesh->indices[0], bytes);
+	file_cursor += bytes;
+
+	//Saving the file
+	
+	std::string file_path = path;
+	std::string file_name = App->file_system->GetNameFromPath(file_path);
+
+	std::string new_path = MESHES_PATH + file_name + CUSTOM_MESH_EXT;
+
+	result = App->file_system->Save(new_path.c_str(), *buffer, size);
+
+	LOG("[IMPORTER] Saved %s in %s", new_path, MESHES_PATH);
+
+	return result;
 }
 
 void Importer::Meshes::Load(const char* buffer, R_Mesh* mesh)

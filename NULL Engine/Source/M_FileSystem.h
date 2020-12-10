@@ -60,10 +60,13 @@ public:
 	bool DuplicateFile(const char* source_file, const char* destination_file);							// Reads all the data inside the source file and writes it in the destination file.
 
 	bool Remove(const char* file);															// Deletes the given file. If it is a directory all files inside it are deleted before it.
+	bool RemoveExtension(std::string& path);													// Removes the extension from a path
+	bool RemovePath(std::string& path);														// Removes the directories from a path
 
 	uint64 GetLastModTime(const char* filename) const;										// Returns the last time that the given file was modified.
 	std::string GetUniqueName(const char* path, const char* name) const;					// Gets a unique name for a file with the same base name as other files in the same directory.
 	std::string GetFileExtension(const char* path);
+	std::string GetNameFromPath(std::string& path);
 };
 
 #endif // !__M_FILE_SYSTEM_H__

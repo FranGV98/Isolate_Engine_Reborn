@@ -644,3 +644,38 @@ std::string M_FileSystem::GetFileExtension(const char* path)
 
 	return extension;
 }
+
+std::string M_FileSystem::GetNameFromPath(std::string& path)
+{
+	std::string file_name = path;
+	RemovePath(file_name);
+	RemoveExtension(file_name);
+
+	return file_name;
+}
+
+bool M_FileSystem::RemoveExtension(std::string& path) 
+{
+	size_t last_dot = path.find_last_of(".");
+
+	if (last_dot == std::string::npos) //npos = maximum size of size_t
+	{
+		return false;
+	}
+		
+	path = path.substr(0, last_dot);
+	return true;
+}
+
+bool M_FileSystem::RemovePath(std::string& path) 
+{
+	const size_t last_slash = path.find_last_of("\\/");
+
+	if (last_slash == std::string::npos) //npos = maximum size of size_t
+	{ 
+		LOG("[WARNING] Filename %s has no path", path.c_str());
+		return false;
+	}
+	path = path.erase(0, last_slash + 1);
+	return true;
+}

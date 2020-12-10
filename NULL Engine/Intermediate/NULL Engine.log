@@ -1,3 +1,68 @@
-﻿  E_Inspector.cpp
-F:\Documentos\GitHub\Isolate_Engine_Reborn\NULL Engine\Source\E_Inspector.cpp(85,2): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  NULL Engine.vcxproj -> F:\Documentos\GitHub\Isolate_Engine_Reborn\NULL Engine\.\Build\NULL Engine.exe
+﻿  Application.cpp
+D:\Windows Kits\10\Include\10.0.18362.0\ucrt\corecrt_math_defines.h(22,1): warning C4005: 'M_PI': macro redefinition
+D:\GUILLEM\UPC\20-21\Motors\Isolate_Engine_Reborn\NULL Engine\Source\Dependencies\SDL\include\SDL_stdinc.h(508): message : see previous definition of 'M_PI'
+  C_Material.cpp
+  C_Mesh.cpp
+  Component.cpp
+  Configuration.cpp
+  E_About.cpp
+  E_Console.cpp
+D:\GUILLEM\UPC\20-21\Motors\Isolate_Engine_Reborn\NULL Engine\Source\E_Console.cpp(46,14): warning C4996: 'strdup': The POSIX name for this item is deprecated. Instead, use the ISO C and C++ conformant name: _strdup. See online help for details.
+D:\GUILLEM\UPC\20-21\Motors\Isolate_Engine_Reborn\NULL Engine\Source\E_Console.cpp(94,20): warning C4018: '<': signed/unsigned mismatch
+  E_EngineConfiguration.cpp
+D:\GUILLEM\UPC\20-21\Motors\Isolate_Engine_Reborn\NULL Engine\Source\E_EngineConfiguration.cpp(561,15): warning C4996: 'strdup': The POSIX name for this item is deprecated. Instead, use the ISO C and C++ conformant name: _strdup. See online help for details.
+  E_Hierarchy.cpp
+  E_ImGuiDemo.cpp
+  E_Inspector.cpp
+D:\GUILLEM\UPC\20-21\Motors\Isolate_Engine_Reborn\NULL Engine\Source\E_Inspector.cpp(85,2): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  E_Panel.cpp
+  E_Scene.cpp
+  E_StateBar.cpp
+  E_Toolbar.cpp
+  E_Viewport.cpp
+  GameObject.cpp
+  HardwareInfo.cpp
+D:\GUILLEM\UPC\20-21\Motors\Isolate_Engine_Reborn\NULL Engine\Source\HardwareInfo.cpp(36,2): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+D:\GUILLEM\UPC\20-21\Motors\Isolate_Engine_Reborn\NULL Engine\Source\HardwareInfo.cpp(44,2): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  I_Materials.cpp
+  I_Meshes.cpp
+  Compiling...
+  Light.cpp
+  Log.cpp
+  M_Camera3D.cpp
+D:\GUILLEM\UPC\20-21\Motors\Isolate_Engine_Reborn\NULL Engine\Source\M_Camera3D.cpp(283,11): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+D:\GUILLEM\UPC\20-21\Motors\Isolate_Engine_Reborn\NULL Engine\Source\M_Camera3D.cpp(288,11): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+D:\GUILLEM\UPC\20-21\Motors\Isolate_Engine_Reborn\NULL Engine\Source\M_Camera3D.cpp(298,39): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+  M_Editor.cpp
+  M_FileSystem.cpp
+  The contents of <filesystem> are available only with C++17 or later.
+  M_Input.cpp
+  M_Renderer3D.cpp
+D:\GUILLEM\UPC\20-21\Motors\Isolate_Engine_Reborn\NULL Engine\Source\M_Renderer3D.h(23,14): warning C4099: 'aiScene': type name first seen using 'struct' now seen using 'class'
+D:\GUILLEM\UPC\20-21\Motors\Isolate_Engine_Reborn\NULL Engine\Source\I_Materials.h(4): message : see declaration of 'aiScene'
+  M_SceneIntro.cpp
+D:\GUILLEM\UPC\20-21\Motors\Isolate_Engine_Reborn\NULL Engine\Source\I_Meshes.h(8,15): warning C4099: 'aiScene': type name first seen using 'class' now seen using 'struct'
+D:\GUILLEM\UPC\20-21\Motors\Isolate_Engine_Reborn\NULL Engine\Source\M_Renderer3D.h(23): message : see declaration of 'aiScene'
+D:\GUILLEM\UPC\20-21\Motors\Isolate_Engine_Reborn\NULL Engine\Source\I_Materials.h(4,15): warning C4099: 'aiScene': type name first seen using 'class' now seen using 'struct'
+D:\GUILLEM\UPC\20-21\Motors\Isolate_Engine_Reborn\NULL Engine\Source\I_Meshes.h(8): message : see declaration of 'aiScene'
+  M_Time.cpp
+  M_Window.cpp
+  Main.cpp
+  Module.cpp
+  PathNode.cpp
+  PerfectTimer.cpp
+  Primitive.cpp
+  R_Material.cpp
+  R_Mesh.cpp
+  R_Model.cpp
+D:\GUILLEM\UPC\20-21\Motors\Isolate_Engine_Reborn\NULL Engine\Source\M_Renderer3D.h(23,14): warning C4099: 'aiScene': type name first seen using 'struct' now seen using 'class'
+D:\GUILLEM\UPC\20-21\Motors\Isolate_Engine_Reborn\NULL Engine\Source\I_Meshes.h(8): message : see declaration of 'aiScene'
+  Resource.cpp
+  Timer.cpp
+D:\GUILLEM\UPC\20-21\Motors\Isolate_Engine_Reborn\NULL Engine\Source\Timer.cpp(51,22): warning C4244: 'return': conversion from 'uint32' to 'float', possible loss of data
+  Generating code
+  18 of 3724 functions ( 0.5%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    154 functions had inline decision re-evaluated but remain unchanged
+  Finished generating code
+  NULL Engine.vcxproj -> D:\GUILLEM\UPC\20-21\Motors\Isolate_Engine_Reborn\NULL Engine\.\Build\NULL Engine.exe

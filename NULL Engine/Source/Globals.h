@@ -100,6 +100,9 @@ enum class UPDATE_STATUS						// Defines all the states that the application can
 #define SCENES_PATH				"Library/Scenes/"
 #define SHADERS_PATH			"Library/Shaders/"
 
+// Custom File Extensions
+#define CUSTOM_MESH_EXT ".iso"
+
 // Deletes a buffer
 #define RELEASE( x )			\
 	{							\
