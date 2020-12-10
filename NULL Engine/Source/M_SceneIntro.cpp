@@ -48,7 +48,7 @@ bool M_SceneIntro::Start()
 		App->editor->SetInspectedGameObject(root_object);
 	}
 
-	CreateGameObjectsFromModel("Assets/Models/baker_house/BakerHouse.fbx");
+	CreateGameObjectsFromModel("Assets/Models/street/street2.fbx");
 
 	return ret;
 }

@@ -105,7 +105,7 @@ void E_Hierarchy::ProcessGameObject(GameObject* game_object)
 			ImGui::EndDragDropSource();
 		}
 
-		if (ImGui::BeginDragDropTarget())												// Here it is checked whether or not an element is being dropped into this specific node/item.
+		if (ImGui::BeginDragDropTarget())													// Here it is checked whether or not an element is being dropped into this specific node/item.
 		{
 			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("DRAGGED_NODE"))	// First, the payload that is being dropped needs to be checked to make sure its the correct one.
 			{	
