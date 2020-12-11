@@ -99,3 +99,8 @@ void C_Mesh::SetDrawNormals(const bool& set_to)
 		mesh->draw_normals = set_to;
 	}
 }
+
+const AABB& C_Mesh::GetAABB()
+{
+	return aabb;
+}

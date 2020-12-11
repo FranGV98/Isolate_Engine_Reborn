@@ -1,12 +1,16 @@
-#include "ImGui.h"
+#include "imgui.h"
 #include "OpenGL.h"
 #include "ImGui/imgui_internal.h"
+#include "ImGui/ImGuizmo/ImGuizmo.h"
 
 #include "Application.h"
+#include "M_Camera3D.h"
 #include "M_Window.h"
 #include "M_Renderer3D.h"
 #include "M_Input.h"
 #include "GameObject.h"
+#include "Component.h"
+#include "C_Transform.h"
 
 #include "E_Panel.h"
 #include "E_Toolbar.h"
@@ -68,6 +72,7 @@ M_Editor::~M_Editor()
 bool M_Editor::Init(Configuration& config)
 {
 	bool ret = true;
+	ImGuizmo::Enable(true);
 
 	return ret;
 }
@@ -77,6 +82,9 @@ bool M_Editor::Start()
 	bool ret = true;
 
 	InitializeImGui();
+
+	imguizmo_operation = ImGuizmo::OPERATION::TRANSLATE;
+	imguizmo_mode = ImGuizmo::MODE::WORLD;
 	
 	return ret;
 }
@@ -87,6 +95,7 @@ UPDATE_STATUS M_Editor::PreUpdate(float dt)
 
 	EditorShortcuts();
 	CheckShowHideFlags();
+
 
 	return ret;
 }
@@ -108,6 +117,7 @@ UPDATE_STATUS M_Editor::PostUpdate(float dt)
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplSDL2_NewFrame(App->window->GetWindow());
 	ImGui::NewFrame();
+	ImGuizmo::BeginFrame();
 
 	if (BeginRootWindow(io, "Root window", true, ImGuiWindowFlags_MenuBar))
 	{
@@ -127,6 +137,11 @@ UPDATE_STATUS M_Editor::PostUpdate(float dt)
 			}
 		}
 		
+		if (GetInspectedGameObject() != nullptr)
+		{
+			DrawGuizmo();
+		}
+
 		ImGui::End();
 	}
 	
@@ -453,4 +468,50 @@ bool M_Editor::InitializeImGui() const
 	ImGui_ImplOpenGL3_Init(0);
 
 	return ret;
+}
+
+////GUIZMO FUNCTIONS
+void M_Editor::ChangeCurrentGuizmo(ImGuizmo::OPERATION& operation)
+{
+	/*if (currentOp == 1) {
+		operation = ImGuizmo::OPERATION::TRANSLATE;
+	}
+	if (currentOp == 2) {
+		operation = ImGuizmo::OPERATION::ROTATE;
+	}
+	if (currentOp == 3) {
+	}*/
+		operation = ImGuizmo::OPERATION::SCALE;
+
+}
+
+void M_Editor::DrawGuizmo()
+{
+	C_Transform* obj_transform = (C_Transform*)App->editor->inspector->GetSelectedGameObject()->GetComponent(COMPONENT_TYPE::TRANSFORM);
+	
+	//// View parametres
+	//float4x4 view_matrix = App->camera->GetActiveCamera()->frustum.ViewMatrix();
+	//view_matrix.Transpose();
+	//float4x4 proj_matrix = App->camera->GetActiveCamera()->frustum.ProjectionMatrix().Transposed();
+
+	//Matrix
+	//float4x4 view_matrix = App->camera->GetViewMatrix();
+
+	// Draw guizmos axis
+	ImGuiIO& io = ImGui::GetIO();
+	ImGuizmo::SetRect(0, 0, io.DisplaySize.x, io.DisplaySize.y);
+
+	// Change guizmos operations
+	ChangeCurrentGuizmo(imguizmo_operation);
+
+	float4x4 matrix;
+	matrix = obj_transform->matrix.Transposed();
+	
+	ImGuizmo::MODE current_mode = (imguizmo_operation == ImGuizmo::OPERATION::SCALE ? ImGuizmo::MODE::LOCAL : imguizmo_mode);
+	//ImGuizmo::Manipulate((const float3*)&App->camera->GetViewMatrix(), App->renderer->GetProjectionMatrix(), imguizmo_operation, current_mode, (float*)matrix.v);
+	
+	if (ImGuizmo::IsUsing() == true)
+	{
+		obj_transform->SetWorldTransform(matrix.Transposed());
+	}
 }

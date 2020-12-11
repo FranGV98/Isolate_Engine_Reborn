@@ -2,6 +2,7 @@
 #define __R_MESH_H__
 
 #include "Resource.h"
+#include "MathGeoLib/include/Geometry/AABB.h"
 
 class R_Mesh : public Resource
 {
@@ -35,6 +36,7 @@ public:
 	bool draw_normals;
 	std::string path;
 
+	AABB aabb;
 private:
 
 };

@@ -1,6 +1,8 @@
 #include "Globals.h"
 #include "Application.h"
 #include "M_Renderer3D.h"
+#include "M_Editor.h"
+#include "E_Inspector.h"
 
 #include "Component.h"
 #include "C_Transform.h"
@@ -9,6 +11,10 @@
 #include "C_Light.h"
 
 #include "GameObject.h"
+#include "glmath.h"
+
+#include "MathGeoLib/include/Geometry/LineSegment.h"
+#include "glew/include/glew.h"
 
 GameObject::GameObject() :
 id(0),
@@ -58,7 +64,12 @@ bool GameObject::Update()
 		}
 	}
 
+	GameObject* selected_go = App->editor->inspector->GetSelectedGameObject();
+
+	UpdateBoundingBox();
 	Render();
+
+	DrawGOBox(selected_go);
 
 	return ret;
 }
@@ -349,4 +360,80 @@ void GameObject::SetChildsIsStatic(const bool& set_to, GameObject* parent)
 C_Transform* GameObject::GetTransform()
 {
 	return (C_Transform*)GetComponent(COMPONENT_TYPE::TRANSFORM);
+}
+
+C_Mesh* GameObject::GetMesh()
+{
+	return (C_Mesh*)GetComponent(COMPONENT_TYPE::MESH);
+}
+
+void GameObject::UpdateBoundingBox()
+{
+	C_Mesh* mesh = this->GetMesh();
+
+	if (mesh != nullptr)
+	{
+		obb = mesh->GetAABB();
+		obb.Transform(this->GetTransform()->GetWorldTransform());
+
+		aabb.SetNegativeInfinity();
+		aabb.Enclose(obb);
+	}
+}
+
+void GameObject::DrawAllBoxes(const AABB& aabb)
+{
+	glLineWidth(1);
+	glBegin(GL_LINES);
+
+	glColor4f(255,255,255,255);
+
+	for (uint i = 0; i < 12; i++)
+	{
+		glVertex3f(aabb.Edge(i).a.x, aabb.Edge(i).a.y, aabb.Edge(i).a.z);
+		glVertex3f(aabb.Edge(i).b.x, aabb.Edge(i).b.y, aabb.Edge(i).b.z);
+	}
+
+	glColor3ub(255, 255, 255);
+
+	glEnd();
+}
+
+bool GameObject::DrawGOBox(GameObject* GO)
+{
+
+	if (GO == nullptr)
+		return false;
+
+	if (GO != nullptr)
+	{
+		C_Mesh* mesh = GO->GetMesh();
+
+		if (mesh)
+		{
+			obb = mesh->GetAABB();
+
+			obb.Transform(GO->GetTransform()->GetWorldTransform());
+
+			aabb.SetNegativeInfinity();
+			aabb.Enclose(obb);
+		}
+
+		glLineWidth(1);
+		glBegin(GL_LINES);
+
+		glColor4f(255,255,255,255);
+
+		for (uint i = 0; i < 12; i++)
+		{
+			glVertex3f(aabb.Edge(i).a.x, aabb.Edge(i).a.y, aabb.Edge(i).a.z);
+			glVertex3f(aabb.Edge(i).b.x, aabb.Edge(i).b.y, aabb.Edge(i).b.z);
+		}
+
+		glColor3ub(255, 255, 255);
+
+		glEnd();
+	}
+
+	return true;
 }
