@@ -13,7 +13,7 @@
 #include "GameObject.h"
 #include "glmath.h"
 
-#include "MathGeoLib/include/Geometry/LineSegment.h"
+#include "MathGeoLib/include/MathGeoLib.h"
 #include "glew/include/glew.h"
 
 GameObject::GameObject() :
@@ -25,6 +25,8 @@ parent(nullptr),
 is_root_object(false)
 {
 	transform = (C_Transform*)CreateComponent(COMPONENT_TYPE::TRANSFORM);
+
+	InitBoundingBox();
 }
 
 GameObject::GameObject(uint id, std::string name, bool is_active, bool is_static) :
@@ -45,11 +47,14 @@ is_root_object(false)
 	CreateComponent(COMPONENT_TYPE::MESH);
 	CreateComponent(COMPONENT_TYPE::MATERIAL);
 	CreateComponent(COMPONENT_TYPE::LIGHT);
+
+	InitBoundingBox();
 }
 
 GameObject::~GameObject()
 {
-
+	RELEASE_ARRAY(obb_corners);
+	RELEASE_ARRAY(aabb_corners);
 }
 
 bool GameObject::Update()
@@ -66,7 +71,7 @@ bool GameObject::Update()
 
 	GameObject* selected_go = App->editor->inspector->GetSelectedGameObject();
 
-	//UpdateBoundingBox();
+	UpdateBoundingBox();
 	Render();
 
 	return ret;
@@ -365,59 +370,56 @@ C_Mesh* GameObject::GetMesh()
 	return (C_Mesh*)GetComponent(COMPONENT_TYPE::MESH);
 }
 
+void GameObject::InitBoundingBox()
+{
+	obb_corners = new float3[8];																	// Bounding boxes will always have 8 vertices as they are Cuboids.
+	aabb_corners = new float3[8];
+
+	obb.SetNegativeInfinity();
+	aabb.SetNegativeInfinity();
+}
+
 void GameObject::UpdateBoundingBox()
 {
-	C_Mesh* mesh = this->GetMesh();
-
-	if (mesh != nullptr)
+	std::vector<C_Mesh*> mesh_list;
+	//Pick all meshes and put them into the mesh list
+	for (uint i = 0; i < components.size(); ++i)
 	{
-		obb = mesh->GetAABB();
+		if (components[i]->type == COMPONENT_TYPE::MESH)
+		{
+			mesh_list.push_back((C_Mesh*)components[i]);
+		}
+	}
 
-		obb.Transform(this->GetTransform()->GetWorldTransform());
+	for (uint i = 0; i < mesh_list.size(); ++i)
+	{
+		if (mesh_list[i] == nullptr || mesh_list[i]->GetMesh() == nullptr)
+		{
+			continue;
+		}
+
+		obb = mesh_list[i]->GetAABB();
+		obb.Transform(GetTransform()->GetWorldTransform());
 
 		aabb.SetNegativeInfinity();
 		aabb.Enclose(obb);
 	}
-}
 
-void GameObject::DrawAllBoxes(const AABB& aabb)
-{
-	glLineWidth(1);
-	glBegin(GL_LINES);
-
-	glColor4f(255,255,255,255);
-
-	for (uint i = 0; i < 12; i++)
-	{
-		glVertex3f(aabb.Edge(i).a.x, aabb.Edge(i).a.y, aabb.Edge(i).a.z);
-		glVertex3f(aabb.Edge(i).b.x, aabb.Edge(i).b.y, aabb.Edge(i).b.z);
-	}
-
-	glColor3ub(255, 255, 255);
-
-	glEnd();
+	mesh_list.clear();
 }
 
 void GameObject::DrawGOBox()
 {
-		UpdateBoundingBox();
-
 		glLineWidth(3.0f);
 		glBegin(GL_LINES);
 
-		AABB test_aabb = { float3(-.5f, -.5f, .5f), float3(.5f, .5f, .5f) };
-		vec* aabb_corners = new vec[8];
-		vec* oob_corners = new vec[8];
+		Color green = { 0.0f, 1.0f, 0.0f, 1.0f };
+		Color violet = { 0.8f, 0.0f, 1.0f, 1.0f };
 
-		//this->aabb.GetCornerPoints(corners);
-		test_aabb.GetCornerPoints(aabb_corners);
-		App->renderer->DrawCube(aabb_corners);
-		this->obb.GetCornerPoints(oob_corners);
-		App->renderer->DrawCube(oob_corners);
-
-		delete[] oob_corners;
-		delete[] aabb_corners;
+		this->aabb.GetCornerPoints(aabb_corners);
+		App->renderer->DrawCube(aabb_corners, green);
+		this->obb.GetCornerPoints(obb_corners);
+		App->renderer->DrawCube(obb_corners, violet);
 
 		glEnd();
-
 }

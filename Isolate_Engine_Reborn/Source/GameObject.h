@@ -52,9 +52,9 @@ public:																					// --- GETTERS AND SETTERS
 	C_Transform*	GetTransform();
 	C_Mesh*			GetMesh();
 
+	void				InitBoundingBox();
 	void				UpdateBoundingBox();
 	void				DrawGOBox();
-	static void			DrawAllBoxes(const AABB& aabb);
 
 public:
 	std::vector<Component*>		components;
@@ -66,8 +66,11 @@ public:
 
 	bool						is_root_object;
 
-	AABB aabb;
-	OBB obb;
+	float3*						obb_corners;
+	float3*						aabb_corners;
+
+	AABB						aabb;
+	OBB							obb;
 
 private:
 	uint						id;

@@ -92,7 +92,7 @@ public:																		// --- GET/SET METHODS
 	void			SetShowTexCoords(bool set_to);							// 
 	void			SetDrawPrimtiveExamples(bool set_to);					//
 
-	void			DrawCube(const float3* corners);
+	void			DrawCube(const float3* corners, Color color);
 public:
 	Light					lights[MAX_LIGHTS];								// 
 	SDL_GLContext			context;										// 

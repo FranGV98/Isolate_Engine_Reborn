@@ -38,6 +38,8 @@ public:
 
 	void			ChangeSceneName(const char* new_name);
 
+	void			DrawAllBoundingBoxes();
+
 private:
 	void HandleDebugInput();
 	void DebugSpawnPrimitive(Primitive* p);
@@ -46,6 +48,7 @@ public:
 	std::vector<GameObject*> game_objects;
 	GameObject* root_object;
 
+	bool			display_all_BB;
 private:
 	std::vector<Primitive*> primitives;
 };

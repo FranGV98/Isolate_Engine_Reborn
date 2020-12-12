@@ -50,6 +50,7 @@ bool M_SceneIntro::Start()
 
 	CreateGameObjectsFromModel("Assets/Models/street/Street Environment_V01.FBX");
 
+	display_all_BB = true;
 	return ret;
 }
 
@@ -77,6 +78,11 @@ UPDATE_STATUS M_SceneIntro::Update(float dt)
 	{
 		GameObject* test_go = App->editor->GetInspectedGameObject();
 		App->editor->GetInspectedGameObject()->DrawGOBox();
+	}
+
+	if (display_all_BB)
+	{
+		DrawAllBoundingBoxes();
 	}
 
 	return UPDATE_STATUS::CONTINUE;
@@ -403,4 +409,12 @@ void M_SceneIntro::DebugSpawnPrimitive(Primitive* p)
 {
 	primitives.push_back(p);
 	p->SetPos(App->camera->position.x, App->camera->position.y, App->camera->position.z);
+}
+
+void M_SceneIntro::DrawAllBoundingBoxes()
+{
+	for (int i = 0; i < game_objects.size(); i++)
+	{
+		game_objects[i]->DrawGOBox();
+	}
 }
