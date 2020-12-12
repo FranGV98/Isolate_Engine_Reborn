@@ -694,3 +694,10 @@ void M_Renderer3D::SetDrawPrimtiveExamples(bool set_to)
 		draw_primitive_examples = set_to;
 	}
 }
+
+float4x4 M_Renderer3D::GetProjectionMatrix()
+{
+	mat4x4 m4 = ProjectionMatrix;
+	float4x4 projection_matrix_float = float4x4(m4[0], m4[1], m4[2], m4[3], m4[4], m4[5], m4[6], m4[7], m4[8], m4[9], m4[10], m4[11], m4[12], m4[13], m4[14], m4[15]);
+	return projection_matrix_float;
+}
