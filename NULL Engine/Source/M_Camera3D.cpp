@@ -315,7 +315,7 @@ mat4x4 M_Camera3D::GetViewMatrix()
 void M_Camera3D::CalculateViewMatrix()
 {
 	vec3 T = { -dot(X, position), -dot(Y, position), -dot(Z, position) };			// The camera's current transform is calculated.
-	
+
 	ViewMatrix = mat4x4(X.x, Y.x, Z.x, 0.0f, 
 						X.y, Y.y, Z.y, 0.0f, 
 						X.z, Y.z, Z.z, 0.0f, 
