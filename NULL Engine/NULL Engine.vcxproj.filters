@@ -393,9 +393,6 @@
     <ClCompile Include="Source\Dependencies\MathGeoLib\include\Algorithm\SAT.cpp">
       <Filter>Dependencies\MathGeoLib\include\Algorithm</Filter>
     </ClCompile>
-    <ClCompile Include="Source\C_Camera.cpp">
-      <Filter>SourceCode\5_GameObjects\Components</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Color.h">
@@ -859,9 +856,6 @@
     </ClInclude>
     <ClInclude Include="Source\Dependencies\MathGeoLib\include\Algorithm\SAT.h">
       <Filter>Dependencies\MathGeoLib\include\Algorithm</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\C_Camera.h">
-      <Filter>SourceCode\5_GameObjects\Components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

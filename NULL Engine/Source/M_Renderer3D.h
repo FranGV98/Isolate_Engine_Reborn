@@ -66,7 +66,7 @@ public:																		// --- RENDER GEOMETRY
 
 	void			AddPrimitive(Primitive* primitive);
 	void			CreatePrimitiveExamples();
-	float4x4			GetProjectionMatrix();
+	float*			GetProjectionMatrix();
 
 public:																		// --- GET/SET METHODS
 	const char*		GetDrivers() const;										// 

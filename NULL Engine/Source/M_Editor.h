@@ -101,8 +101,8 @@ public:
 private:
 	int b;
 public:
-	ImGuizmo::OPERATION imguizmo_operation = ImGuizmo::OPERATION::TRANSLATE;
-	ImGuizmo::MODE imguizmo_mode = ImGuizmo::MODE::WORLD;
+	ImGuizmo::OPERATION imguizmo_operation;
+	ImGuizmo::MODE imguizmo_mode;
 };
 
 #endif // !__M_EDITOR_H__

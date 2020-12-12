@@ -82,6 +82,9 @@ bool M_Editor::Start()
 	bool ret = true;
 
 	InitializeImGui();
+
+	imguizmo_operation = ImGuizmo::OPERATION::TRANSLATE;
+	imguizmo_mode = ImGuizmo::MODE::WORLD;
 	
 	return ret;
 }
@@ -491,14 +494,8 @@ void M_Editor::DrawGuizmo()
 	//view_matrix.Transpose();
 	//float4x4 proj_matrix = App->camera->GetActiveCamera()->frustum.ProjectionMatrix().Transposed();
 
-	//Matrix mat to float
-	mat4x4 m4 = App->camera->GetViewMatrix();
-	float4x4 view_matrix = float4x4(m4[0], m4[1], m4[2], m4[3], m4[4], m4[5], m4[6], m4[7], m4[8], m4[9], m4[10], m4[11], m4[12], m4[13], m4[14], m4[15]);
-	view_matrix.Transpose();
-	float4x4 projection_matrix = App->renderer->GetProjectionMatrix();
-	projection_matrix.Transpose();
-	float4x4 global_matrix = obj_transform->GetWorldTransform();
-	global_matrix.Transpose();
+	//Matrix
+	//float4x4 view_matrix = App->camera->GetViewMatrix();
 
 	// Draw guizmos axis
 	ImGuiIO& io = ImGui::GetIO();
@@ -506,11 +503,12 @@ void M_Editor::DrawGuizmo()
 
 	// Change guizmos operations
 	ChangeCurrentGuizmo(imguizmo_operation);
+
 	float4x4 matrix;
 	matrix = obj_transform->matrix.Transposed();
 	
 	ImGuizmo::MODE current_mode = (imguizmo_operation == ImGuizmo::OPERATION::SCALE ? ImGuizmo::MODE::LOCAL : imguizmo_mode);
-	ImGuizmo::Manipulate(view_matrix.ptr(), projection_matrix.ptr(), imguizmo_operation, current_mode, (float*)matrix.v);
+	//ImGuizmo::Manipulate((const float3*)&App->camera->GetViewMatrix(), App->renderer->GetProjectionMatrix(), imguizmo_operation, current_mode, (float*)matrix.v);
 	
 	if (ImGuizmo::IsUsing() == true)
 	{
