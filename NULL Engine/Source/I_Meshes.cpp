@@ -74,7 +74,6 @@ uint64 Importer::Meshes::Save(const R_Mesh* mesh, const char* path, char** buffe
 	file_cursor += bytes;
 
 	//Saving the file
-	
 	std::string file_path = path;
 	std::string file_name = App->file_system->GetNameFromPath(file_path);
 
@@ -87,9 +86,55 @@ uint64 Importer::Meshes::Save(const R_Mesh* mesh, const char* path, char** buffe
 	return result;
 }
 
-void Importer::Meshes::Load(const char* buffer, R_Mesh* mesh)
+bool Importer::Meshes::Load(const char* buffer, R_Mesh* mesh)
 {
+	bool ret = true;
 
+	if (buffer == nullptr || mesh == nullptr)
+	{
+		LOG("[ERROR] Could not load mesh from Library, mesh or buffer was nullptr");
+	}
+
+	char* file_cursor = (char*)buffer;
+
+	//Reading the information
+
+	//HEADER
+	uint header[HEADER_SIZE];
+	uint bytes = sizeof(header);
+	memcpy(header, file_cursor, bytes);
+	file_cursor += bytes;
+
+	//VERTICES
+	mesh->vertices.resize(header[0]);
+	bytes = header[0] * sizeof(float);
+	memcpy(&mesh->vertices[0], file_cursor, bytes);
+	file_cursor += bytes;
+
+	//NORMALS
+	mesh->normals.resize(header[1]);
+	bytes = header[1] * sizeof(float);
+	memcpy(file_cursor, file_cursor, bytes);
+	file_cursor += bytes;
+
+	//TEXTURE COORDINATES
+	mesh->tex_coords.resize(header[2]);
+	bytes = header[2] * sizeof(float);
+	memcpy(file_cursor, file_cursor, bytes);
+	file_cursor += bytes;
+
+	//INDICES
+	mesh->indices.resize(header[3]);
+	bytes = header[3] * sizeof(float);
+	memcpy(file_cursor, file_cursor, bytes);
+	file_cursor += bytes;
+
+	mesh->VBO = header[4];
+	mesh->NBO = header[5];
+	mesh->TBO = header[6];
+	mesh->IBO = header[7];
+
+	return ret;
 }
 
 void Importer::Meshes::Import(const char* path, std::vector<R_Mesh*>& meshes)
