@@ -62,6 +62,8 @@ about(nullptr)
 	show_imgui_demo			= false;
 	show_about_popup		= false;
 	show_close_app_popup	= false;
+	
+	ImGuizmo::Enable(true);
 }
 
 M_Editor::~M_Editor()
@@ -72,7 +74,6 @@ M_Editor::~M_Editor()
 bool M_Editor::Init(Configuration& config)
 {
 	bool ret = true;
-	ImGuizmo::Enable(true);
 
 	return ret;
 }
@@ -499,6 +500,9 @@ void M_Editor::DrawGuizmo()
 	projection_matrix.Transpose();
 	float4x4 global_matrix = obj_transform->GetWorldTransform();
 	global_matrix.Transpose();
+
+	ImGuizmo::SetDrawlist();
+	ImGuizmo::SetRect(0.0f, 0.0f, 1920, 1080);
 
 	// Draw guizmos axis
 	ImGuiIO& io = ImGui::GetIO();

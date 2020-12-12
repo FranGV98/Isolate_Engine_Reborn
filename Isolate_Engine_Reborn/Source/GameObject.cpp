@@ -66,10 +66,8 @@ bool GameObject::Update()
 
 	GameObject* selected_go = App->editor->inspector->GetSelectedGameObject();
 
-	UpdateBoundingBox();
+	//UpdateBoundingBox();
 	Render();
-
-	DrawGOBox(selected_go);
 
 	return ret;
 }
@@ -374,6 +372,7 @@ void GameObject::UpdateBoundingBox()
 	if (mesh != nullptr)
 	{
 		obb = mesh->GetAABB();
+
 		obb.Transform(this->GetTransform()->GetWorldTransform());
 
 		aabb.SetNegativeInfinity();
@@ -399,41 +398,26 @@ void GameObject::DrawAllBoxes(const AABB& aabb)
 	glEnd();
 }
 
-bool GameObject::DrawGOBox(GameObject* GO)
+void GameObject::DrawGOBox()
 {
+		UpdateBoundingBox();
 
-	if (GO == nullptr)
-		return false;
-
-	if (GO != nullptr)
-	{
-		C_Mesh* mesh = GO->GetMesh();
-
-		if (mesh)
-		{
-			obb = mesh->GetAABB();
-
-			obb.Transform(GO->GetTransform()->GetWorldTransform());
-
-			aabb.SetNegativeInfinity();
-			aabb.Enclose(obb);
-		}
-
-		glLineWidth(1);
+		glLineWidth(3.0f);
 		glBegin(GL_LINES);
 
-		glColor4f(255,255,255,255);
+		AABB test_aabb = { float3(-.5f, -.5f, .5f), float3(.5f, .5f, .5f) };
+		vec* aabb_corners = new vec[8];
+		vec* oob_corners = new vec[8];
 
-		for (uint i = 0; i < 12; i++)
-		{
-			glVertex3f(aabb.Edge(i).a.x, aabb.Edge(i).a.y, aabb.Edge(i).a.z);
-			glVertex3f(aabb.Edge(i).b.x, aabb.Edge(i).b.y, aabb.Edge(i).b.z);
-		}
+		//this->aabb.GetCornerPoints(corners);
+		test_aabb.GetCornerPoints(aabb_corners);
+		App->renderer->DrawCube(aabb_corners);
+		this->obb.GetCornerPoints(oob_corners);
+		App->renderer->DrawCube(oob_corners);
 
-		glColor3ub(255, 255, 255);
+		delete[] oob_corners;
+		delete[] aabb_corners;
 
 		glEnd();
-	}
 
-	return true;
 }

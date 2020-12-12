@@ -53,7 +53,7 @@ public:																					// --- GETTERS AND SETTERS
 	C_Mesh*			GetMesh();
 
 	void				UpdateBoundingBox();
-	bool				DrawGOBox(GameObject* GO);
+	void				DrawGOBox();
 	static void			DrawAllBoxes(const AABB& aabb);
 
 public:

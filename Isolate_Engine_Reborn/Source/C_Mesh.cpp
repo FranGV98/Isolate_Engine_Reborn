@@ -102,5 +102,5 @@ void C_Mesh::SetDrawNormals(const bool& set_to)
 
 const AABB& C_Mesh::GetAABB()
 {
-	return aabb;
+	return mesh->aabb;
 }

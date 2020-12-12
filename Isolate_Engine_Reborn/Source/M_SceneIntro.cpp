@@ -73,6 +73,12 @@ UPDATE_STATUS M_SceneIntro::Update(float dt)
 		//DebugSpawnPrimitive(new Sphere(1.0f, 1.0f));
 	}
 
+	if (App->editor->GetInspectedGameObject() != nullptr)
+	{
+		GameObject* test_go = App->editor->GetInspectedGameObject();
+		App->editor->GetInspectedGameObject()->DrawGOBox();
+	}
+
 	return UPDATE_STATUS::CONTINUE;
 }
 

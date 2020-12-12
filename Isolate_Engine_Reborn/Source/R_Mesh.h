@@ -17,6 +17,7 @@ public:
 
 	bool CleanUp();
 
+	void CreateAABB();
 public:
 	std::vector<float>		vertices;
 	std::vector<float>		normals;

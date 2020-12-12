@@ -93,3 +93,15 @@ bool R_Mesh::CleanUp()
 
 	return true;
 }
+
+void R_Mesh::CreateAABB()
+{
+	//float* vertices_f = nullptr;
+	//for (int i = 0; i < vertices.size() ; i++)
+	//{
+	//	vertices_f[i] = vertices[i];
+	//	vertices.data
+	//}
+	aabb.SetNegativeInfinity();
+	aabb.Enclose((math::vec*)vertices.data(), vertices.size());
+}
