@@ -2,9 +2,9 @@
 #define __C_TRANSFORM_H__
 
 #include "Component.h"
-#include "MathGeoLib/src/Math/float4x4.h"
-#include "MathGeoLib/src/Math/float3.h"
-#include "MathGeoLib/src/Math/Quat.h"
+#include "MathGeoLib/include/Math/float4x4.h"
+#include "MathGeoLib/include/Math/float3.h"
+#include "MathGeoLib/include/Math/Quat.h"
 
 class GameObject;
 
@@ -33,6 +33,7 @@ public:
 	void SetScale(const float3& scale);
 
 	void SetLocalTransform(float3 position, float3 scale, Quat rotation);
+	void SetWorldTransform(float4x4 new_transform);
 
 public:
 	float4x4	matrix;

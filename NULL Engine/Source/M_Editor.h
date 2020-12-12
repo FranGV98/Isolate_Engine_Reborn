@@ -1,7 +1,8 @@
 #ifndef __M_EDITOR_H__
 #define __M_EDITOR_H__
 
-#include "ImGui/imgui.h"
+#include "imgui.h"
+#include "ImGui/ImGuizmo/ImGuizmo.h"
 #include "Module.h"
 
 class Configuration;
@@ -69,6 +70,8 @@ public:																				// --- Panel/Window Methods. Acts as an interface bet
 	void			SetInspectedGameObject(GameObject* game_object);
 	GameObject*		GetInspectedGameObject() const;
 
+	void			DrawGuizmo();
+	void			ChangeCurrentGuizmo(ImGuizmo::OPERATION& operation);
 private:
 	bool BeginRootWindow(ImGuiIO& io, const char* window_id, bool docking, ImGuiWindowFlags window_flags = ImGuiWindowFlags_None);
 	void BeginDockspace(ImGuiIO& io, const char* dockspace_id, ImGuiDockNodeFlags docking_flags = ImGuiDockNodeFlags_None, ImVec2 size = { 0.0f, 0.0f });
@@ -82,8 +85,7 @@ public:
 	E_Console*				console;												// 
 	E_ImGuiDemo*			imgui_demo;												// 
 	E_About*				about;	
-	E_StateBar*				statebar;
-												// 
+	E_StateBar*				statebar;																				// 
 
 public:
 	ImVec4 clear_color;																//
@@ -98,6 +100,9 @@ public:
 
 private:
 	int b;
+public:
+	ImGuizmo::OPERATION imguizmo_operation = ImGuizmo::OPERATION::TRANSLATE;
+	ImGuizmo::MODE imguizmo_mode = ImGuizmo::MODE::WORLD;
 };
 
 #endif // !__M_EDITOR_H__

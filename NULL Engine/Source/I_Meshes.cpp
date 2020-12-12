@@ -219,6 +219,12 @@ void Importer::Meshes::Utilities::GenerateMesh(const aiScene* ai_scene, const ai
 	Utilities::GetTexturePaths(ai_scene, ai_mesh, r_mesh);									// Will get the filename associated with ai_mesh and store it inside r_mesh's tex path vector.
 
 	r_mesh->LoadBuffers();
+
+	if (r_mesh != nullptr)
+	{
+		r_mesh->aabb.SetNegativeInfinity();
+		r_mesh->aabb.Enclose((float3*)&r_mesh->vertices[0], r_mesh->vertices.size() / 3);	
+	}
 }
 
 void Importer::Meshes::Utilities::GetVertices(const aiMesh* ai_mesh, R_Mesh* r_mesh, uint size)

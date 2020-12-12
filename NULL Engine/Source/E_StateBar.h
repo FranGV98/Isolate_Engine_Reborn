@@ -9,5 +9,6 @@ public:
 
 	bool	Draw(ImGuiIO& io) override;
 	bool	CleanUp() override;
-
+public:
+	bool not_running;
 };

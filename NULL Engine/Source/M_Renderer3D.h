@@ -1,8 +1,8 @@
 #ifndef __M_RENDERER_3D_H__
 #define __M_RENDERER_3D_H__
 
-#include "MathGeoLib/src/Math/float4x4.h"
-#include "ImGui/imgui.h"														// REMOVE?
+#include "MathGeoLib/include/Math/float4x4.h"
+/*#include "ImGui/imgui.h"		*/												// REMOVE?
 
 #include "Module.h"
 #include "Globals.h"
@@ -66,6 +66,7 @@ public:																		// --- RENDER GEOMETRY
 
 	void			AddPrimitive(Primitive* primitive);
 	void			CreatePrimitiveExamples();
+	float4x4			GetProjectionMatrix();
 
 public:																		// --- GET/SET METHODS
 	const char*		GetDrivers() const;										// 

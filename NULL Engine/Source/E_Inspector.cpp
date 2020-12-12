@@ -1,4 +1,4 @@
-#include "MathGeoLib/src/Math/float3.h"
+#include "MathGeoLib/include/Math/float3.h"
 
 #include "GameObject.h"
 #include "Component.h"
@@ -154,7 +154,6 @@ void E_Inspector::DrawTransformComponent()
 			bool transform_is_active = transform->IsActive();
 			if (ImGui::Checkbox("Transform Is Active", &transform_is_active))
 			{
-				//transform->SetIsActive(transform_is_active);
 				transform->SetIsActive(transform_is_active);
 			}
 

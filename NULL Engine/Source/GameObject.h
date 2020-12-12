@@ -1,6 +1,8 @@
 #ifndef __GAME_OBJECT_H__
 #define __GAME_OBJECT_H__
 
+#include "MathGeoLib/include/MathGeoLib.h"
+
 #include <vector>
 #include <map>
 #include <string>
@@ -9,6 +11,8 @@ typedef unsigned int uint;
 
 class Component;
 class C_Transform;
+class C_Mesh;
+
 enum class COMPONENT_TYPE;
 
 class GameObject
@@ -46,6 +50,12 @@ public:																					// --- GETTERS AND SETTERS
 	void		SetChildsIsStatic(const bool& set_to, GameObject* parent);
 
 	C_Transform*	GetTransform();
+	C_Mesh*			GetMesh();
+
+	void				UpdateBoundingBox();
+	bool				DrawGOBox(GameObject* GO);
+	static void			DrawAllBoxes(const AABB& aabb);
+
 public:
 	std::vector<Component*>		components;
 	std::vector<GameObject*>	childs;
@@ -55,6 +65,9 @@ public:
 	C_Transform*				transform;
 
 	bool						is_root_object;
+
+	AABB aabb;
+	OBB obb;
 
 private:
 	uint						id;

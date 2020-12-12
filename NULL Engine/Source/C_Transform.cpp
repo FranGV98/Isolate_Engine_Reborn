@@ -1,4 +1,4 @@
-#include "MathGeoLib/src/Math/TransformOps.h"
+#include "MathGeoLib/include/Math/TransformOps.h"
 
 #include "GameObject.h"
 
@@ -99,6 +99,11 @@ float4x4 C_Transform::GetLocalTransform()
 float4x4 C_Transform::GetWorldTransform()
 {
 	return world_transform;
+}
+
+void C_Transform::SetWorldTransform(float4x4 new_transform)
+{
+	world_transform = new_transform;
 }
 
 void C_Transform::RecalculateWorldTransform()

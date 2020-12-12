@@ -2,6 +2,7 @@
 #define __C_MESH_H__
 
 #include "Component.h"
+#include "MathGeoLib/include/Geometry/AABB.h"
 
 class GameObject;
 class R_Mesh;
@@ -27,8 +28,12 @@ public:
 	bool GetDrawNormals() const;
 	void SetDrawNormals(const bool& set_to);
 
+	const AABB& GetAABB();
+	AABB	aabb;
+
 private:
 	R_Mesh* mesh;
+
 };
 
 #endif // !__C_MESH_H__
