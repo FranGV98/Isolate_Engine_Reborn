@@ -55,6 +55,7 @@ public:
 	void			SetFrontPlane(float dist);
 
 	vec*			GetFrustumPoints() const;
+	bool			FrustumContains(const AABB& refBox) const;
 
 
 public:

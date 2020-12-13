@@ -173,6 +173,33 @@ vec* C_Camera::GetFrustumPoints() const
 	return frustum_edges;
 }
 
+bool C_Camera::FrustumContains(const AABB& refBox) const
+{
+	vec vCorner[8];
+
+	refBox.GetCornerPoints(vCorner); 
+
+	static Plane frust_planes[6];
+	frustum.GetPlanes(frust_planes);
+
+	for (int p = 0; p < 6; ++p) {
+		int iInCount = 8;
+
+		for (int i = 0; i < 8; ++i) {
+			// test this point against the planes
+			if (frust_planes[p].IsOnPositiveSide(vCorner[i]))
+			{
+				--iInCount;
+			}
+		}
+		if (iInCount == 0)
+		{
+			return true;
+		}
+	}
+
+	return false;
+}
 //
 //void C_Camera::WASDMovement()
 //{

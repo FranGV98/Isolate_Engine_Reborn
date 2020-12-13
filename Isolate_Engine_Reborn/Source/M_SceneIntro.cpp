@@ -109,6 +109,19 @@ UPDATE_STATUS M_SceneIntro::Update(float dt)
 		DrawAllBoundingBoxes();
 	}
 
+	C_Camera* go_cam = (C_Camera*)game_camera->GetComponent(COMPONENT_TYPE::CAMERA);
+	for (int i = 0; i < game_objects.size(); i++)
+	{
+		if (go_cam->FrustumContains(game_objects[i]->aabb))
+		{
+			game_objects[i]->GetMesh()->SetIsActive(false);
+		}
+		else
+		{
+			game_objects[i]->GetMesh()->SetIsActive(true);
+		}
+	}
+
 	return UPDATE_STATUS::CONTINUE;
 }
 

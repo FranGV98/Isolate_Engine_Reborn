@@ -8,12 +8,15 @@
 #include "M_Input.h"
 #include "M_FileSystem.h"
 #include "M_Editor.h"
+#include "M_SceneIntro.h"
 #include "Primitive.h"
 
 #include "R_Model.h"
 #include "R_Mesh.h"
 #include "R_Material.h"
 #include "I_Materials.h"
+#include "C_Camera.h"
+#include "GameObject.h"
 
 #include "M_Renderer3D.h"
 
@@ -452,8 +455,9 @@ void M_Renderer3D::DrawMesh(float4x4 transform, R_Mesh* mesh, uint texture_id, b
 	glMultMatrixf((float*)&transform.Transposed());
 	
 	glEnableClientState(GL_VERTEX_ARRAY);															// Enables the vertex array for writing and will be used during rendering.
-	glEnableClientState(GL_TEXTURE_COORD_ARRAY);													// Enables the texture coordinate array for writing and will be used during rendering.
+	glEnableClientState(GL_TEXTURE_COORD_ARRAY);		
 
+	// Enables the texture coordinate array for writing and will be used during rendering.
 	if (!tex_is_active)
 	{
 		SetGLFlag(GL_TEXTURE_2D, false);
