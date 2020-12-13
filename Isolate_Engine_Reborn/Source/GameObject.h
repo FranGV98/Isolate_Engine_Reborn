@@ -55,6 +55,7 @@ public:																					// --- GETTERS AND SETTERS
 	void				InitBoundingBox();
 	void				UpdateBoundingBox();
 	void				DrawGOBox();
+	void				DrawFrustumBox();
 
 public:
 	std::vector<Component*>		components;
@@ -71,7 +72,6 @@ public:
 
 	AABB						aabb;
 	OBB							obb;
-
 private:
 	uint						id;
 	std::string					name;

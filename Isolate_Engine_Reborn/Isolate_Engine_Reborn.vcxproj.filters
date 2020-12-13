@@ -292,6 +292,9 @@
     <ClCompile Include="Source\Dependencies\MathGeoLib\include\Time\Clock.cpp">
       <Filter>Dependencies\MathGeoLib\Time</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Randomizer.cpp">
+      <Filter>SourceCode\7_Tools\Random</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Dependencies\Assimp\include\cimport.h">
@@ -749,6 +752,9 @@
     </ClInclude>
     <ClInclude Include="Source\Dependencies\MathGeoLib\include\Time\Clock.h">
       <Filter>Dependencies\MathGeoLib\Time</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Randomizer.h">
+      <Filter>SourceCode\7_Tools\Random</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

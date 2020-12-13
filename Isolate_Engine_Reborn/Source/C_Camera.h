@@ -25,6 +25,7 @@ public:
 	mat4x4			GetViewMatrix();
 	float*			GetProjectionMatrix();
 
+	void			UpdateTransform(const float4x4& world, const float4x4& parent_world);
 	//FROM OLD MODULE CAMERA
 	void			PointAt(const vec3& position, const vec3& reference, bool RotateAroundReference = false);
 	void			LookAt(const vec3& Spot);

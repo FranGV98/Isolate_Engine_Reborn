@@ -31,7 +31,6 @@ public:
 
 	bool			IsActive() const;
 	void			SetIsActive(const bool& is_active);
-
 public:
 	COMPONENT_TYPE	type;
 

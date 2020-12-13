@@ -103,6 +103,7 @@
     <ClCompile Include="Source\PathNode.cpp" />
     <ClCompile Include="Source\PerfectTimer.cpp" />
     <ClCompile Include="Source\Primitive.cpp" />
+    <ClCompile Include="Source\Randomizer.cpp" />
     <ClCompile Include="Source\Resource.cpp" />
     <ClCompile Include="Source\R_Material.cpp" />
     <ClCompile Include="Source\R_Mesh.cpp" />
@@ -257,6 +258,7 @@
     <ClInclude Include="Source\PathNode.h" />
     <ClInclude Include="Source\PerfectTimer.h" />
     <ClInclude Include="Source\Primitive.h" />
+    <ClInclude Include="Source\Randomizer.h" />
     <ClInclude Include="Source\Resource.h" />
     <ClInclude Include="Source\R_Material.h" />
     <ClInclude Include="Source\R_Mesh.h" />

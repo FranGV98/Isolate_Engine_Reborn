@@ -44,10 +44,9 @@ is_root_object(false)
 	}
 
 	transform = (C_Transform*)CreateComponent(COMPONENT_TYPE::TRANSFORM);
-	//TMP
 	CreateComponent(COMPONENT_TYPE::MESH);
 	CreateComponent(COMPONENT_TYPE::MATERIAL);
-	CreateComponent(COMPONENT_TYPE::LIGHT);
+	//CreateComponent(COMPONENT_TYPE::LIGHT);
 
 	InitBoundingBox();
 }
@@ -67,6 +66,20 @@ bool GameObject::Update()
 		if (components[i]->IsActive())
 		{
 			components[i]->Update();
+
+			if (components[i]->type == COMPONENT_TYPE::CAMERA)
+			{
+				C_Camera* go_camera = (C_Camera*)components[i];
+				if (parent != nullptr)
+				{
+					C_Transform* parent_transform = (C_Transform*)parent->GetComponent(COMPONENT_TYPE::TRANSFORM);
+					go_camera->UpdateTransform(transform->GetWorldTransform(), parent_transform->GetWorldTransform());
+				}
+				else
+				{
+					go_camera->UpdateTransform(transform->GetWorldTransform(), float4x4::identity);
+				}
+			}		
 		}
 	}
 
@@ -429,3 +442,18 @@ void GameObject::DrawGOBox()
 
 		glEnd();
 }
+
+void GameObject::DrawFrustumBox()
+{
+	glLineWidth(3.0f);
+	glBegin(GL_LINES);
+
+	Color pink = { 1, 0.1f, 1.0f, 0.6f };
+
+	C_Camera* camera = (C_Camera*)this->GetComponent(COMPONENT_TYPE::CAMERA);
+	float3* frustum_edges = camera->GetFrustumPoints();
+	App->renderer->DrawCube(frustum_edges, pink);
+
+	glEnd();
+}
+

@@ -9,7 +9,7 @@ namespace Randomizer
 	static math::LCG lcg_rand;
 
 	uint32	GetRandomUint();
-	uint32	GetBoundedRandomUint(uint32 min = 0, uint32 max = 4294967295);
+	uint32	GetBoundedRandomUint(uint32 min = 0, uint32 max = 64);
 	float	GetBoundedRandomFloat(float min, float max);
 }
 

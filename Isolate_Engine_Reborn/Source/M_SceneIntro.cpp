@@ -17,6 +17,7 @@
 #include "C_Mesh.h"
 #include "C_Material.h"
 #include "C_Camera.h"
+#include "C_Transform.h"
 
 #include "M_SceneIntro.h"
 
@@ -96,15 +97,6 @@ UPDATE_STATUS M_SceneIntro::Update(float dt)
 		DrawAllBoundingBoxes();
 	}
 
-	if (game_camera != nullptr) //draw frustum
-	{
-		glLineWidth(2.0f);
-		vec* frustum_corners;
-		C_Camera* camera = (C_Camera*)game_camera->GetComponent(COMPONENT_TYPE::CAMERA);
-		frustum_corners = camera->GetFrustumPoints();
-		App->renderer->DrawCube(frustum_corners, Color(1.0f, 0.0f, 0.0f, 1.0f));
-	}
-
 	return UPDATE_STATUS::CONTINUE;
 }
 
@@ -173,11 +165,16 @@ GameObject* M_SceneIntro::CreateGameObject(const char* name, GameObject* parent)
 	
 	GameObject* game_object = new GameObject(game_objects.size(), complete_name);
 
+	game_object->CreateComponent(COMPONENT_TYPE::TRANSFORM);
+
+	C_Transform* go_transform = (C_Transform*)game_object->GetComponent(COMPONENT_TYPE::TRANSFORM);
+
 	if (game_object != nullptr)
 	{
 		if (game_objects.empty())
 		{
 			game_object->is_root_object = true;
+			go_transform->SetLocalTransform(float3::zero, float3::one, Quat::identity);
 		}
 		
 		game_objects.push_back(game_object);
@@ -185,8 +182,13 @@ GameObject* M_SceneIntro::CreateGameObject(const char* name, GameObject* parent)
 		if (parent != nullptr)
 		{
 			parent->AddChild(game_object);
+			if (parent->GetComponent(COMPONENT_TYPE::TRANSFORM) != NULL)
+			{
+				go_transform->SetLocalTransform(parent->transform->GetPosition(), parent->transform->GetScale(), Quat::identity);
+			}
 		}
 	}
+
 
 	return game_object;
 }
@@ -435,6 +437,9 @@ void M_SceneIntro::DrawAllBoundingBoxes()
 {
 	for (int i = 0; i < game_objects.size(); i++)
 	{
-		game_objects[i]->DrawGOBox();
+		if (game_objects[i]->IsActive() == true )
+		{
+			game_objects[i]->DrawGOBox();
+		}
 	}
 }

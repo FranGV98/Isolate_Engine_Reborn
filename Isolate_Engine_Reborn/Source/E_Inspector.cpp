@@ -1,11 +1,13 @@
 #include "MathGeoLib/include/Math/float3.h"
 
+#include "Application.h"
 #include "GameObject.h"
 #include "Component.h"
 #include "C_Transform.h"
 #include "C_Mesh.h"
 #include "C_Material.h"
 #include "C_Light.h"
+#include "C_Camera.h"
 
 #include "E_Inspector.h"
 
@@ -131,6 +133,7 @@ void E_Inspector::DrawComponents()
 			case COMPONENT_TYPE::MESH:		{ DrawMeshComponent(); }		break;
 			case COMPONENT_TYPE::MATERIAL:	{ DrawMaterialComponent(); }	break;
 			case COMPONENT_TYPE::LIGHT:		{ DrawLightComponent(); }		break;
+			case COMPONENT_TYPE::CAMERA:	{ DrawCameraComponent(); }		break;
 			}
 
 			if (component->type == COMPONENT_TYPE::NONE || component->type == COMPONENT_TYPE::UNKNOWN)
@@ -335,3 +338,44 @@ void E_Inspector::DrawLightComponent()
 		ImGui::Separator();
 	}
 }
+
+void E_Inspector::DrawCameraComponent()
+{
+	if (ImGui::CollapsingHeader("Camera", ImGuiTreeNodeFlags_DefaultOpen))
+	{
+		C_Camera* camera = (C_Camera*)selected_game_object->GetComponent(COMPONENT_TYPE::CAMERA);
+
+		if (camera != nullptr)
+		{
+			bool camera_is_active = camera->IsActive();
+			if (ImGui::Checkbox("Camera Is Active", &camera_is_active))
+			{
+				camera->SetIsActive(camera_is_active);
+			}
+
+			ImGui::Separator();
+
+			float current_FOV = camera->GetFOV();
+			if (ImGui::DragFloat("Field of View", &current_FOV)) 
+			{ 
+				camera->SetFOV(current_FOV); 
+			}
+
+			float back_plane = camera->GetBackPlane();
+			if (ImGui::DragFloat("View", &back_plane)) 
+			{ 
+				camera->SetBackPlane(back_plane); 
+			}
+
+			float front_plane = camera->GetFrontPlane();
+			if (ImGui::DragFloat("Projection", &front_plane))
+			{ 
+				camera->SetFrontPlane(front_plane);
+			}
+
+		}
+
+		ImGui::Separator();
+	}
+}
+

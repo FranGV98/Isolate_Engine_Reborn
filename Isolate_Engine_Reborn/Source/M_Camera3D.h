@@ -4,6 +4,7 @@
 #include "Module.h"
 #include "Globals.h"
 #include "glmath.h"
+#include "C_Camera.h"
 
 #include "Dependencies/MathGeoLib/include/Math/float4x4.h"
 #include "Dependencies/MathGeoLib/include/Math/float2.h"
@@ -76,6 +77,7 @@ public:
 	float rotation_speed;											// 
 	float zoom_speed;												// 
 
+	C_Camera* game_camera;
 private:
 	mat4x4 ViewMatrix;
 	mat4x4 ViewMatrixInverse;

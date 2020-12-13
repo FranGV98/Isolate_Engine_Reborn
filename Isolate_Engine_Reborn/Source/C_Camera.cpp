@@ -1,7 +1,11 @@
 #include "Globals.h"
+#include "glew/include/glew.h"
+#include "Color.h"
+
 #include "Application.h"
 #include "M_Window.h"
 #include "M_Input.h"
+#include "M_Renderer3D.h"
 
 #include "GameObject.h"
 
@@ -13,11 +17,6 @@ camera_is_active(false),
 culling_is_active(false)
 {
 	InitFrustum();
-
-	//hardcoded
-	SetFOV(50);
-	SetBackPlane(10);
-	SetFrontPlane(100);
 }
 
 C_Camera::~C_Camera()
@@ -25,7 +24,10 @@ C_Camera::~C_Camera()
 
 bool C_Camera::Update()
 {
-
+	if (owner != nullptr)
+	{
+		owner->DrawFrustumBox();
+	}
 	return true;
 }
 
@@ -57,19 +59,35 @@ void C_Camera::InitFrustum()
 	SetFOV(30.0f);
 }
 
+void C_Camera::UpdateTransform(const float4x4& world, const float4x4& parent_world)
+{
+	frustum.SetFront(world.WorldZ());
+	frustum.SetUp(world.WorldY());
+
+	Quat   rot = Quat::identity;
+	float3 scale = {1,1,1};
+	float3 pos = {0,0,0};
+
+	world.Decompose(pos, rot, scale);
+
+	frustum.SetPos(pos);
+}
+
 float* C_Camera::GetRawViewMatrix()//
 {
 	static float4x4 frustum_mat = frustum.ViewMatrix();
+	frustum_mat.Transpose();
 
-	return (float*)frustum_mat.Transposed().v;
+	return (float*)frustum_mat.v;
 }
 
 
 float* C_Camera::GetProjectionMatrix()//
 {
 	static float4x4 frustum_mat = frustum.ProjectionMatrix();
+	frustum_mat.Transpose();
 
-	return (float*)frustum_mat.Transposed().v;
+	return (float*)frustum_mat.v;
 }
 
 mat4x4 C_Camera::GetViewMatrix()
