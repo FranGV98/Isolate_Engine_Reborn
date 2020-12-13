@@ -99,9 +99,15 @@ enum class UPDATE_STATUS						// Defines all the states that the application can
 #define PARTICLES_PATH			"Library/Particles/"
 #define SCENES_PATH				"Library/Scenes/"
 #define SHADERS_PATH			"Library/Shaders/"
+#define TEXTURES_PATH			"Library/Textures"
 
-// Custom File Extensions
+//File Extensions
 #define CUSTOM_MESH_EXT ".iso"
+#define CUSTOM_MAT_EXT ".mat"
+#define CUSTOM_TEX_EXT ".tex"
+
+#define META_EXT ".meta"
+#define JSON_EXT ".json"
 
 // Deletes a buffer
 #define RELEASE( x )			\
