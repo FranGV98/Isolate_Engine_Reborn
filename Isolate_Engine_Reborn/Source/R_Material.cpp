@@ -1,6 +1,6 @@
 #include "R_Material.h"
 
-R_Material::R_Material() : Resource()
+R_Material::R_Material() : Resource(RESOURCE_TYPE::MATERIAL)
 {
 	//tex_data = { "NONE", TEXTURE_TYPE::NONE, 0, 0, 0 };
 }

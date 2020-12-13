@@ -5,7 +5,7 @@
 #define CHECKERS_WIDTH 64
 #define CHECKERS_HEIGHT 64
 
-R_Mesh::R_Mesh() : Resource(),
+R_Mesh::R_Mesh() : Resource(RESOURCE_TYPE::MESH),
 draw_normals(false),
 path("NONE")
 {
