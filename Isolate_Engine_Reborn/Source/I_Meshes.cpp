@@ -9,7 +9,10 @@
 #include "M_FileSystem.h"
 #include "R_Mesh.h"
 
+#include "GameObject.h"
 #include "I_Meshes.h"
+
+#include "Transform.h"
 
 #pragma comment (lib, "Source/Dependencies/Assimp/libx86/assimp.lib")
 
@@ -18,7 +21,7 @@ using namespace Importer::Meshes;																	// Not a good thing to do but 
 uint64 Importer::Meshes::Save(const R_Mesh* mesh, const char* path, char** buffer)
 {
 	uint64 result = 0;
-	
+
 	//Create the header
 	uint header[HEADER_SIZE] =
 	{
@@ -42,7 +45,7 @@ uint64 Importer::Meshes::Save(const R_Mesh* mesh, const char* path, char** buffe
 		LOG("[WARNING] Mesh had no data to Save!");
 		return 0;
 	}
-	
+
 	*buffer = new char[size];
 	char* file_cursor = *buffer; //Indicates the position where we are writing
 
@@ -164,13 +167,14 @@ void Utilities::ProcessNode(const aiScene* scene, aiNode* node, std::vector<R_Me
 	for (uint i = 0; i < node->mNumMeshes; ++i)														// The loop is run for as many meshes that the node has registered it has.
 	{
 		aiMesh* ai_mesh = scene->mMeshes[node->mMeshes[i]];											// Gets the mesh specifiec by the mesh index stored in the node's mMeshes array.
-
+		
 		if (ai_mesh != nullptr && ai_mesh->HasFaces())												// Checks that the aiMesh is valid.
 		{
-			R_Mesh* r_mesh = new R_Mesh();															// Generates a new R_Mesh.
+			R_Mesh* r_mesh = new R_Mesh();													// Generates a new R_Mesh.
+			r_mesh->og_trans = new Transform();															// Generates a new R_Mesh.
 
 			Utilities::GenerateMesh(scene, ai_mesh, r_mesh);										// Sets the given r_mesh with the data stored in ai_mesh.
-
+			Utilities::GenerateTransform(scene, node, r_mesh->og_trans);
 			if (r_mesh != nullptr)																	// Checks that the R_Mesh* is valid/stores data.
 			{
 				meshes.push_back(r_mesh);															// Adds the R_Mesh* to the given meshes vector.
@@ -223,9 +227,47 @@ void Importer::Meshes::Utilities::GenerateMesh(const aiScene* ai_scene, const ai
 	if (r_mesh != nullptr)
 	{
 		r_mesh->aabb.SetNegativeInfinity();
-		r_mesh->aabb.Enclose((float3*)&r_mesh->vertices[0], r_mesh->vertices.size() / 3);	
+		r_mesh->aabb.Enclose((float3*)&r_mesh->vertices[0], r_mesh->vertices.size() / 3);
 	}
 }
+
+void Importer::Meshes::Utilities::GenerateTransform(const aiScene* ai_scene, const aiNode* ai_node, Transform* trans)
+{
+	aiTransform ai_trans;
+
+	ai_node->mTransformation.Decompose(ai_trans.scale, ai_trans.rotation, ai_trans.position);							
+
+	trans->position = { ai_trans.position.x, ai_trans.position.y, ai_trans.position.z };
+	trans->rotation = { ai_trans.rotation.x, ai_trans.rotation.y, ai_trans.rotation.z, ai_trans.rotation.w };
+	trans->scale = { ai_trans.scale.x, ai_trans.scale.y, ai_trans.scale.z };
+
+	std::string node_name = ai_node->mName.C_Str();																	
+	bool found_dummy_node = true;																					
+	while (found_dummy_node)
+	{
+		found_dummy_node = false;
+
+		if (node_name.find("_$AssimpFbx$_") != std::string::npos && ai_node->mNumChildren == 1)						
+		{
+			ai_node = ai_node->mChildren[0];																		
+
+			ai_node->mTransformation.Decompose(ai_trans.scale, ai_trans.rotation, ai_trans.position);				
+
+			float3	d_position = { ai_trans.position.x, ai_trans.position.y, ai_trans.position.z };						
+			Quat	d_rotation = { ai_trans.rotation.x, ai_trans.rotation.y, ai_trans.rotation.z, ai_trans.rotation.w };
+			float3	d_scale = { ai_trans.scale.x, ai_trans.scale.y, ai_trans.scale.z };								
+
+																													
+			trans->position.Add(d_position);
+			trans->rotation.Mul(d_rotation);
+			trans->scale.Mul(d_scale);
+
+			node_name = ai_node->mName.C_Str();	
+			found_dummy_node = true;
+		}
+	}
+}
+
 
 void Importer::Meshes::Utilities::GetVertices(const aiMesh* ai_mesh, R_Mesh* r_mesh, uint size)
 {
@@ -325,8 +367,8 @@ void Importer::Meshes::Utilities::GetTexturePaths(const aiScene* ai_scene, const
 			}
 			else
 			{
-				uint file_end	= file_path.size();
-				file_path		= file_path.substr(file_start, file_end);
+				uint file_end = file_path.size();
+				file_path = file_path.substr(file_start, file_end);
 
 				r_mesh->tex_paths.push_back(file_path.c_str());
 			}

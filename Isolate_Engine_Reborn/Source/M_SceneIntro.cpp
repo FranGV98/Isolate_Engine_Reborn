@@ -18,7 +18,7 @@
 #include "C_Material.h"
 #include "C_Camera.h"
 #include "C_Transform.h"
-
+#include "Transform.h"
 #include "M_SceneIntro.h"
 
 #include "glew/include/glew.h"
@@ -50,6 +50,8 @@ bool M_SceneIntro::Start()
 	if (root_object == nullptr)
 	{
 		root_object = CreateGameObject("Main Scene");
+
+		
 		App->editor->SetInspectedGameObject(root_object);
 	}
 
@@ -61,11 +63,21 @@ bool M_SceneIntro::Start()
 	}
 
 	CreateGameObjectsFromModel("Assets/Models/street/Street Environment_V01.FBX");
-
+	//ResetRootTransform();
 	display_all_BB = true;
 	return ret;
 }
 
+void M_SceneIntro::ResetRootTransform()
+{
+	float3		start_transform(0.0f, 0.0f, 0.0f);
+	float3		start_scale(1.0f, 1.0f, 1.0f);
+	float3		start_rotation(-90.0f, 0.0f, 0.0f);
+
+	root_object->GetTransform()->SetPosition(start_transform);
+	root_object->GetTransform()->SetScale(start_scale);
+	root_object->GetTransform()->SetRotation(start_rotation * DEGTORAD);
+}
 // Update
 UPDATE_STATUS M_SceneIntro::Update(float dt)
 {
@@ -223,6 +235,11 @@ bool M_SceneIntro::GenerateGameObjectsFromMeshes(const char* path, std::string f
 
 		GenerateGameObjectComponents(path, file_name, game_object, meshes[i]);						// 
 
+		float3		position = meshes[i]->og_trans->position;										// Setting the C_Transform component related to the mesh of the Game Object.
+		Quat		rotation = meshes[i]->og_trans->rotation;
+		float3		scale = meshes[i]->og_trans->scale;											// 	
+		game_object->GetTransform()->SetLocalTransform(position, scale, rotation);
+		
 		if (game_object != nullptr)
 		{
 			if (i == 0)																				// Adding the current game object as a child.
@@ -262,6 +279,8 @@ bool M_SceneIntro::GenerateGameObjectComponents(const char* path, std::string fi
 {
 	bool ret = true;
 	
+	
+
 	C_Mesh* c_mesh = (C_Mesh*)game_object->CreateComponent(COMPONENT_TYPE::MESH);				// Creating the C_Mesh components of each mesh.
 	c_mesh->SetMesh(mesh);																		// The name of the file will be added as the path of the mesh.
 	c_mesh->SetMeshPath(file_name.c_str());														// The mesh being iterated will be set as the component's mesh.

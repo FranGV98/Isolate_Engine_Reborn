@@ -1,18 +1,21 @@
 #include "OpenGL.h"
 
 #include "R_Mesh.h"
+#include "Transform.h"
 
 #define CHECKERS_WIDTH 64
 #define CHECKERS_HEIGHT 64
 
 R_Mesh::R_Mesh() : Resource(RESOURCE_TYPE::MESH),
 draw_normals(false),
-path("NONE")
+path("NONE"),
+og_trans(nullptr)
 {
 	VBO = 0;																								// Initializing the buffers.
 	NBO = 0;																								// 
 	TBO = 0;																								//
 	IBO = 0;																								// -----------------------------------
+
 }
 
 R_Mesh::~R_Mesh()
@@ -90,6 +93,12 @@ bool R_Mesh::CleanUp()
 	indices.clear();
 
 	tex_paths.clear();
+
+	if (og_trans != nullptr)
+	{
+		delete og_trans;
+		og_trans = nullptr;
+	}
 
 	return true;
 }

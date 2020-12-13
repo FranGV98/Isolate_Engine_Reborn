@@ -756,6 +756,9 @@
     <ClInclude Include="Source\Randomizer.h">
       <Filter>SourceCode\7_Tools\Random</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Transform.h">
+      <Filter>SourceCode\6_Containers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Configuration\configuration.JSON">

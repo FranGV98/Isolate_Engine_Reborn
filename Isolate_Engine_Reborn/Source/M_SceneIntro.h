@@ -7,6 +7,7 @@ class Configuration;
 class Primitive;
 class GameObject;
 class R_Mesh;
+struct Transform;
 
 class M_SceneIntro : public Module
 {
@@ -39,6 +40,8 @@ public:
 	void			ChangeSceneName(const char* new_name);
 
 	void			DrawAllBoundingBoxes();
+
+	void			ResetRootTransform();
 
 private:
 	void HandleDebugInput();

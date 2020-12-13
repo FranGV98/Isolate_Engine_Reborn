@@ -91,6 +91,25 @@ void C_Transform::SetLocalTransform(float3 position, float3 scale, Quat rotation
 	recalculate_world_transform = true;
 }
 
+void C_Transform::SetTransform(const float3& new_position, const Quat& new_rotation, const float3& new_scale)
+{
+	local_position = new_position;
+	local_rotation = new_rotation;
+	local_scale = new_scale;
+
+	local_euler_rotation = local_rotation.ToEulerXYZ();
+
+	RecalculateLocalTransform();
+}
+
+void C_Transform::AddTransform(const float3& vec)
+{
+	this->local_position += vec;
+
+	RecalculateLocalTransform();
+}
+
+
 float4x4 C_Transform::GetLocalTransform()
 {
 	return local_transform;

@@ -32,8 +32,13 @@ public:
 	void SetRotation(const float3& rotation);
 	void SetScale(const float3& scale);
 
+	void SetTransform(const float3& new_position, const Quat& new_rotation, const float3& new_scale);
+	void AddTransform(const float3& vec3);
+
 	void SetLocalTransform(float3 position, float3 scale, Quat rotation);
 	void SetWorldTransform(float4x4 new_transform);
+
+
 
 public:
 	float4x4	matrix;

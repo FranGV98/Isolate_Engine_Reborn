@@ -4,6 +4,8 @@
 #include "Resource.h"
 #include "MathGeoLib/include/Geometry/AABB.h"
 
+struct Transform;
+
 class R_Mesh : public Resource
 {
 public:
@@ -38,6 +40,9 @@ public:
 	std::string path;
 
 	AABB aabb;
+
+	Transform* og_trans;
+
 private:
 
 };

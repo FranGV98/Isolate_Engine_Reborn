@@ -5,11 +5,15 @@
 
 #define HEADER_SIZE 8
 
+struct aiMesh;
 struct aiScene;
 struct aiNode;
-struct aiMesh;
 
+class GameObject;
 class R_Mesh;
+
+struct Transform;
+
 
 namespace Importer
 {
@@ -26,7 +30,7 @@ namespace Importer
 			void ProcessNode(const aiScene* scene, aiNode* node, std::vector<R_Mesh*>& meshes);		// Processes the given aiNode and recursively goes through it's childs.
 
 			void GenerateMesh(const aiScene* ai_scene, const aiMesh* ai_mesh, R_Mesh* r_mesh);		// Stores the data of the given aiMesh* in the given R_Mesh*.
-
+			void GenerateTransform(const aiScene* ai_scene, const aiNode* ai_node, Transform* trans);
 			void GetVertices(const aiMesh* ai_mesh, R_Mesh* r_mesh, uint size);						// Gets the data for the meshes' vertex positions.
 			void GetNormals(const aiMesh* ai_mesh, R_Mesh* r_mesh, uint size);						// Gets the data for the meshes' vertex normals.
 			void GetTexCoords(const aiMesh* ai_mesh, R_Mesh* r_mesh, uint size);					// Gets the data for the meshes' vertex tex coords.

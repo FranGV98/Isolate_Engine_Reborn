@@ -264,6 +264,7 @@
     <ClInclude Include="Source\R_Mesh.h" />
     <ClInclude Include="Source\R_Model.h" />
     <ClInclude Include="Source\Timer.h" />
+    <ClInclude Include="Source\Transform.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Configuration\configuration.JSON" />
