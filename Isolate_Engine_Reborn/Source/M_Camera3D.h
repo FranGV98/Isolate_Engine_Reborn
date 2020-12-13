@@ -5,7 +5,13 @@
 #include "Globals.h"
 #include "glmath.h"
 
+#include "Dependencies/MathGeoLib/include/Math/float4x4.h"
+#include "Dependencies/MathGeoLib/include/Math/float2.h"
+#include "Dependencies/MathGeoLib/include/Math/float3.h"
+#include "Dependencies/MathGeoLib/include/Geometry/Frustum.h"
+
 class Configuration;
+class ComponentCamera;
 
 class M_Camera3D : public Module
 {

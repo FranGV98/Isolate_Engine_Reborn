@@ -9,11 +9,12 @@
 #include "C_Mesh.h"
 #include "C_Material.h"
 #include "C_Light.h"
+#include "C_Camera.h"
 
 #include "GameObject.h"
 #include "glmath.h"
 
-#include "MathGeoLib/include/MathGeoLib.h"
+#include "MathGeoLib/include/Geometry/LineSegment.h"
 #include "glew/include/glew.h"
 
 GameObject::GameObject() :
@@ -236,6 +237,10 @@ Component* GameObject::CreateComponent(COMPONENT_TYPE type)
 	case COMPONENT_TYPE::LIGHT:
 		component = new C_Light(this);
 		break;
+
+	case COMPONENT_TYPE::CAMERA:
+		component = new C_Camera(this);
+		break;
 	}
 
 	if (component != nullptr)
@@ -286,6 +291,7 @@ const char* GameObject::GetComponentNameFromType(COMPONENT_TYPE type)
 	case COMPONENT_TYPE::MESH:		{ return "Mesh"; }		break;
 	case COMPONENT_TYPE::MATERIAL:	{ return "Material"; }	break;
 	case COMPONENT_TYPE::LIGHT:		{ return "Light"; }		break;
+	case COMPONENT_TYPE::CAMERA:	{ return "Camera"; }	break;
 	case COMPONENT_TYPE::UNKNOWN:	{ return "Unknown"; }	break;
 	}
 

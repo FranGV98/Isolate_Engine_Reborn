@@ -47,6 +47,7 @@ private:
 public:
 	std::vector<GameObject*> game_objects;
 	GameObject* root_object;
+	GameObject* game_camera;
 
 	bool			display_all_BB;
 private:

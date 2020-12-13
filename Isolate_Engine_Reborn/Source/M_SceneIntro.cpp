@@ -16,12 +16,16 @@
 #include "Component.h"
 #include "C_Mesh.h"
 #include "C_Material.h"
+#include "C_Camera.h"
 
 #include "M_SceneIntro.h"
+
+#include "glew/include/glew.h"
 
 M_SceneIntro::M_SceneIntro(bool is_active) : Module("SceneManager", is_active)
 {
 	root_object = nullptr;
+	game_camera = nullptr;
 }
 
 M_SceneIntro::~M_SceneIntro()
@@ -46,6 +50,13 @@ bool M_SceneIntro::Start()
 	{
 		root_object = CreateGameObject("Main Scene");
 		App->editor->SetInspectedGameObject(root_object);
+	}
+
+	if (game_camera == nullptr)
+	{
+		game_camera = CreateGameObject("Game Camera", root_object);
+		App->editor->SetInspectedGameObject(game_camera);
+		game_camera->CreateComponent(COMPONENT_TYPE::CAMERA);
 	}
 
 	CreateGameObjectsFromModel("Assets/Models/street/Street Environment_V01.FBX");
@@ -74,7 +85,7 @@ UPDATE_STATUS M_SceneIntro::Update(float dt)
 		//DebugSpawnPrimitive(new Sphere(1.0f, 1.0f));
 	}
 
-	if (App->editor->GetInspectedGameObject() != nullptr)
+	if (App->editor->GetInspectedGameObject() != nullptr)//selected objects -> bounding box
 	{
 		GameObject* test_go = App->editor->GetInspectedGameObject();
 		App->editor->GetInspectedGameObject()->DrawGOBox();
@@ -83,6 +94,15 @@ UPDATE_STATUS M_SceneIntro::Update(float dt)
 	if (display_all_BB)
 	{
 		DrawAllBoundingBoxes();
+	}
+
+	if (game_camera != nullptr) //draw frustum
+	{
+		glLineWidth(2.0f);
+		vec* frustum_corners;
+		C_Camera* camera = (C_Camera*)game_camera->GetComponent(COMPONENT_TYPE::CAMERA);
+		frustum_corners = camera->GetFrustumPoints();
+		App->renderer->DrawCube(frustum_corners, Color(1.0f, 0.0f, 0.0f, 1.0f));
 	}
 
 	return UPDATE_STATUS::CONTINUE;
